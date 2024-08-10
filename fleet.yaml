@@ -1,0 +1,12 @@
+namespace: suse-private-ai
+helm:
+  releaseName: suse-private-ai
+  repo: ""
+  chart: "./suse-private-ai"
+  version: ""
+  force: false
+  valuesFrom:
+    - configMapKeyRef:
+        name: suse-private-ai-values
+        namespace: suse-private-ai
+        key: values.yaml

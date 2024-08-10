@@ -1,0 +1,199 @@
+# Global section
+global:
+  tls:
+    # options: suse-private-ai, letsEncrypt, secret
+    source: suse-private-ai
+    issuerName: suse-private-ai
+
+    # This section to be filled out when using letsEncrypt as the tls source
+    letsEncrypt:
+      environment: staging
+      email: none@example.com
+      ingress:
+        class: ""
+
+    # Additional Trusted CAs.
+    # Enable this flag and add your CA certs as a secret named tls-ca-additional in the suse-private-ai namespace.
+    additionalTrustedCAs: false
+
+
+# Ollama values
+ollama:
+  replicaCount: 1
+  knative:
+    enabled: false
+    containerConcurrency: 0
+    timeoutSeconds: 300
+    responseStartTimeoutSeconds: 300
+    idleTimeoutSeconds: 300
+  image:
+    repository: ollama/ollama
+    pullPolicy: IfNotPresent
+    tag: ""
+  imagePullSecrets: []
+  nameOverride: ""
+  fullnameOverride: ""
+  ollama:
+    gpu:
+      enabled: false
+      type: 'nvidia'
+      number: 1
+      nvidiaResource: "nvidia.com/gpu"
+    models:
+    - "gemma:2b"
+    insecure: false
+    mountPath: ""
+  serviceAccount:
+    create: true
+    automount: true
+    annotations: {}
+    name: ""
+  podAnnotations: {}
+  podLabels: {}
+  podSecurityContext: {}
+  securityContext: {}
+  runtimeClassName: ""
+  service:
+    type: ClusterIP
+    port: 11434
+    nodePort: 31434
+    annotations: {}
+  ingress:
+    enabled: false # Ollama will not be publicly accessible as the ollama API endpoint is not protected via auth yet
+    className: ""
+    annotations: {}
+    hosts:
+    - host: ollama.local
+      paths:
+      - path: /
+        pathType: Prefix
+    tls: []
+  resources:
+    requests: {}
+    limits: {}
+  livenessProbe:
+    enabled: true
+    path: /
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 6
+    successThreshold: 1
+  readinessProbe:
+    enabled: true
+    path: /
+    initialDelaySeconds: 30
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 6
+    successThreshold: 1
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+  volumes: []
+  volumeMounts: []
+  extraArgs: []
+  extraEnv: []
+  persistentVolume:
+    enabled: false
+    accessModes:
+    - ReadWriteOnce
+    annotations: {}
+    existingClaim: ""
+    size: 30Gi
+    storageClass: ""
+    volumeMode: ""
+    subPath: ""
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  updateStrategy:
+    type: ""
+  initContainers: []
+  hostIPC: false
+  hostPID: false
+  hostNetwork: false
+  defaultModel: "gemma:2b"
+  models:
+  - "gemma:2b"
+
+# open-webui values
+open-webui:
+  nameOverride: ""
+  ollama:
+    enabled: false #Disable as we install ollama seperately
+    fullnameOverride: "open-webui-ollama"
+    ingress:
+      enabled: false
+      className: ""
+      hosts:
+      - host: suse-ollama-local
+        paths:
+        - path: /
+          pathType: Prefix
+      tls: []
+  pipelines:
+    enabled: true
+    extraEnvVars: []
+    persistence:
+      enabled: false
+      storageClass: ""
+    ingress:
+      enabled: false #Disabled - pipeline endpoint is internal
+      class: ""
+      annotations: {}
+      host: ""
+      tls: false
+      existingSecret: ""
+  ollamaUrls:
+  - http://suse-private-ai-ollama.suse-private-ai.svc.cluster.local:11434
+  clusterDomain: cluster.local
+  annotations: {}
+  podAnnotations: {}
+  replicaCount: 1
+  image:
+    repository: ghcr.io/open-webui/open-webui
+    tag: "v0.3.10"
+    pullPolicy: "IfNotPresent"
+  resources: {}
+  ingress:
+    enabled: true
+    class: ""
+    annotations:
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    host: suse-ollama-webui
+    tls: true
+    existingSecret: suse-private-ai-tls
+  persistence:
+    enabled: false
+    size: 6Gi
+    existingClaim: ""
+    accessModes:
+    - ReadWriteOnce
+    storageClass: ""
+    selector: {}
+    annotations: {}
+
+  nodeSelector: {}
+  tolerations: []
+  affinity: {}
+  service:
+    type: ClusterIP
+    annotations: {}
+    port: 80
+    containerPort: 8080
+    nodePort: ""
+    labels: {}
+    loadBalancerClass: ""
+  openaiBaseApiUrl: ""
+  extraEnvVars:
+  - name: DEFAULT_MODELS
+    value: "gemma:2b"
+  - name: DEFAULT_USER_ROLE
+    value: "user"
+
+  podSecurityContext: {}
+  containerSecurityContext: {}
+
