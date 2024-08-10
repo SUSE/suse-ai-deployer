@@ -2,7 +2,7 @@ namespace: suse-private-ai
 helm:
   releaseName: suse-private-ai
   repo: ""
-  chart: "./suse-private-ai"
+  chart: "."
   version: ""
   force: false
   valuesFrom:
