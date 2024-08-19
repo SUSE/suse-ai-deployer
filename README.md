@@ -106,7 +106,6 @@ TO DO - Include documenation around resources, storage, models, etc consideratio
 To deploy the suse private ai stack using helm using the charts in this source repo,
 
 ```bash
-cd suse-private-ai
 helm upgrade --install \
   suse-private-ai  . \
   --namespace suse-private-ai \
@@ -116,7 +115,6 @@ helm upgrade --install \
 Depending on the TLS configuration and your other customization needs, you can create a custom-overrides.yaml file and deploy. The SUSE Private AI chart configuration has many options for customizing the installation to suit your specific environment.
 
 ```bash
-cd suse-private-ai
 helm upgrade --install \
   suse-private-ai  . \
   --namespace suse-private-ai \
