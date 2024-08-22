@@ -126,7 +126,7 @@ spec:
           lifecycle:
             postStart:
               exec:
-                command: [ "/bin/sh", "-c", "{{- printf "echo %s | xargs -n1 /bin/ollama pull %s" (include "ollama.modelList" .) (ternary "--insecure" "" .Values.ollama.insecure)}}" ]
+                command: [ "/bin/sh", "-c", "{{- printf "echo %s | xargs -n1 ollama pull %s" (include "ollama.modelList" .) (ternary "--insecure" "" .Values.ollama.insecure)}}" ]
           {{- end }}
       volumes:
         - name: ollama-data
