@@ -27,7 +27,8 @@ ollama:
     responseStartTimeoutSeconds: 300
     idleTimeoutSeconds: 300
   image:
-    repository: ollama/ollama
+    #repository: ollama/ollama
+    repository: registry.opensuse.org/home/esampson/ai/bci_containerfiles/suse/private-ai/ollama
     pullPolicy: IfNotPresent
     tag: ""
   imagePullSecrets: []

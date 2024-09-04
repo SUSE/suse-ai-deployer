@@ -1,6 +1,7 @@
 ![otwld ollama helm chart banner](./banner.png)
 
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/ollama-helm)](https://artifacthub.io/packages/search?repo=ollama-helm)
+[![Build Status](https://drone.outworld.fr/api/badges/otwld/ollama-helm/status.svg)](https://drone.outworld.fr/otwld/ollama-helm)
 [![Discord](https://img.shields.io/badge/Discord-OTWLD-blue?logo=discord&logoColor=white)](https://discord.gg/U24mpqTynB)
 
 
@@ -60,7 +61,7 @@ Substitute your values if they differ from the examples. See `helm delete --help
 ## Examples
 - **It's highly recommended to run an updated version of Kubernetes for deploying ollama with GPU**
 
-### Basic values.yaml example with GPU and two models pull at startup
+### Basic values.yaml example with GPU and two models pulled at startup
 ```
 ollama:
   gpu:
@@ -141,8 +142,8 @@ ingress:
 | nodeSelector | object | `{}` | Node labels for pod assignment. |
 | ollama.gpu.enabled | bool | `false` | Enable GPU integration |
 | ollama.gpu.number | int | `1` | Specify the number of GPU |
+| ollama.gpu.nvidiaResource | string | `"nvidia.com/gpu"` | only for nvidia cards; change to (example) 'nvidia.com/mig-1g.10gb' to use MIG slice |
 | ollama.gpu.type | string | `"nvidia"` | GPU type: 'nvidia' or 'amd' If 'ollama.gpu.enabled', default value is nvidia If set to 'amd', this will add 'rocm' suffix to image tag if 'image.tag' is not override This is due cause AMD and CPU/CUDA are different images |
-| ollama.gpu.nvidiaResource | string | `"nvidia.com/gpu"` | Resource to use for nvidia cards; change to (example) 'nvidia.com/mig-1g.10gb' to use MIG slice. MIG setup is not done by this chart and best done through nvidia's gpu-operator separately. |
 | ollama.insecure | bool | `false` | Add insecure flag for pulling at container startup |
 | ollama.models | list | `[]` | List of models to pull at container startup The more you add, the longer the container will take to start if models are not present models:  - llama2  - mistral |
 | ollama.mountPath | string | `""` | Override ollama-data volume mount path, default: "/root/.ollama" |
@@ -154,6 +155,7 @@ ingress:
 | persistentVolume.storageClass | string | `""` | Ollama server data Persistent Volume Storage Class If defined, storageClassName: <storageClass> If set to "-", storageClassName: "", which disables dynamic provisioning If undefined (the default) or set to null, no storageClassName spec is set, choosing the default provisioner.  (gp2 on AWS, standard on GKE, AWS & OpenStack) |
 | persistentVolume.subPath | string | `""` | Subdirectory of Ollama server data Persistent Volume to mount Useful if the volume's root directory is not empty |
 | persistentVolume.volumeMode | string | `""` | Ollama server data Persistent Volume Binding Mode If defined, volumeMode: <volumeMode> If empty (the default) or set to null, no volumeBindingMode spec is set, choosing the default mode. |
+| persistentVolume.volumeName | string | `""` | Ollama server Persistent Volume name; can be used to force-attach the created PVC to a specific PV. |
 | podAnnotations | object | `{}` | Map of annotations to add to the pods |
 | podLabels | object | `{}` | Map of labels to add to the pods |
 | podSecurityContext | object | `{}` | Pod Security Context |
@@ -178,6 +180,7 @@ ingress:
 | serviceAccount.create | bool | `true` | Specifies whether a service account should be created |
 | serviceAccount.name | string | `""` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template |
 | tolerations | list | `[]` | Tolerations for pod assignment |
+| topologySpreadConstraints | object | `{}` | Topology Spread Constraints for pod assignment |
 | updateStrategy | object | `{"type":""}` | How to replace existing pods |
 | updateStrategy.type | string | `""` | Can be "Recreate" or "RollingUpdate". Default is RollingUpdate |
 | volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. |
