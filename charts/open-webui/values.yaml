@@ -16,6 +16,7 @@ ollama:
   # runtimeClassName: nvidia
   # persistentVolume:
   #   enabled: true
+  #   volumeName: "example-pre-existing-pv-created-by-smb-csi"
 
 pipelines:
   # -- Automatically install Pipelines chart to extend Open WebUI functionality using Pipelines: https://github.com/open-webui/pipelines
@@ -35,8 +36,15 @@ replicaCount: 1
 # -- Open WebUI image tags can be found here: https://github.com/open-webui/open-webui/pkgs/container/open-webui
 image:
   repository: ghcr.io/open-webui/open-webui
-  tag: "latest"
+  tag: ""
   pullPolicy: "IfNotPresent"
+
+# -- Configure imagePullSecrets to use private registry
+# ref: <https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry>
+imagePullSecrets: []
+# imagePullSecrets:
+# - name: myRegistryKeySecretName
+
 resources: {}
 ingress:
   enabled: false
@@ -67,6 +75,9 @@ tolerations: []
 
 # -- Affinity for pod assignment
 affinity: {}
+
+# -- Topology Spread Constraints for pod assignment
+topologySpreadConstraints: []
 
 # -- Service values to expose Open WebUI pods to cluster
 service:

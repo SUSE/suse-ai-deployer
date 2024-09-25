@@ -21,13 +21,15 @@ global:
 ollama:
   image:
     repository: registry.opensuse.org/home/esampson/ai/bci_containerfiles/suse/private-ai/ollama
+    #repository: ollama/ollama
     pullPolicy: IfNotPresent
     tag: ""
   ingress:
     enabled: false #Disabled - ollama endpoint is internal. Do not enable ingress.
   defaultModel: "gemma:2b"
-  models:
-  - "gemma:2b"
+  ollama:
+    models:
+    - "gemma:2b"
 
 # open-webui subchart overrides - see the charts/open-webui for additional entries
 open-webui:
@@ -40,7 +42,7 @@ open-webui:
   - http://suse-private-ai-ollama.suse-private-ai.svc.cluster.local:11434 #Internally accessible ollama endpoint
   image:
     repository: ghcr.io/open-webui/open-webui
-    tag: "v0.3.10"
+    tag: "v0.3.23"
     pullPolicy: "IfNotPresent"
   ingress:
     enabled: true
@@ -55,6 +57,10 @@ open-webui:
     value: "gemma:2b"
   - name: DEFAULT_USER_ROLE
     value: "user"
+  - name: VECTOR_DB
+    value: "milvus"
+  - name: MILVUS_URI
+    value: http://suse-private-ai-milvus.suse-private-ai.svc.cluster.local:19530
 
 # milvus subchart overrides - see the charts/milvus for additional entries
 milvus:
