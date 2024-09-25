@@ -29,13 +29,17 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
     spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       initContainers:
       - name: copy-app-data
         {{- with .Values.image }}
         image: {{ .repository }}:{{ .tag | default $.Chart.AppVersion }}
         imagePullPolicy: {{ .pullPolicy }}
         {{- end }}
-        command: ['sh', '-c', 'cp -R /app/backend/data/* /tmp/app-data/']
+        command: ['sh', '-c', 'cp -R -n /app/backend/data/* /tmp/app-data/']
         {{- with .Values.containerSecurityContext }}
         securityContext:
           {{- toYaml . | nindent 10 }}
@@ -101,6 +105,10 @@ spec:
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
