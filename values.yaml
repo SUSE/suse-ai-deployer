@@ -20,8 +20,7 @@ global:
 # Ollama subchart overrides - see the charts/ollama for additional entries
 ollama:
   image:
-    repository: registry.opensuse.org/home/esampson/ai/bci_containerfiles/suse/private-ai/ollama
-    #repository: ollama/ollama
+    repository: registry.opensuse.org/home/esampson/ai/15_6_container/suse/private-ai/ollama
     pullPolicy: IfNotPresent
     tag: ""
   ingress:
@@ -68,8 +67,11 @@ milvus:
   cluster:
     enabled: true
   etcd:
+    global:
+      imagePullSecrets:
+        - application-collection
     persistence:
-      storageClass: ""
+      storageClassName: ""
   minio:
     mode: standalone
     persistence:

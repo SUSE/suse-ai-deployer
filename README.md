@@ -100,8 +100,19 @@ helm upgrade --install \
 ### 5. Customization Considerations
 TO DO - Include documenation around resources, storage, models, etc considerations
 
+### 6. Access to Application Collection Registry
 
-### 6. Install SUSE Private AI with Helm and Your Chosen Certificate Option
+Before installing suse-private-ai stack, a K8s secret resource containing the private registry credentials to the application collection suse registry has to be created in the namespace ```suse-private-ai```
+Please substitute your application collection user email and token in the command below.
+
+```bash
+kubectl create ns suse-private-ai
+
+kubectl create secret docker-registry application-collection --docker-server=dp.apps.rancher.io --docker-username=<application_collection_user_email> --docker-password=<application_collection_user_token> -n suse-private-ai
+```
+
+
+### 7. Install SUSE Private AI with Helm and Your Chosen Certificate Option
 
 To deploy the suse private ai stack using helm using the charts in this source repo,
 
@@ -129,7 +140,7 @@ An example of creating local storage provisioner:
 kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/v0.0.28/deploy/local-path-storage.yaml
 ```
 
-#### 6a. Using suse-private-ai generated certificates
+#### 7a. Using suse-private-ai generated certificates
 The default is for suse-private-ai to generate a CA and uses `cert-manager` to issue the certificate for access to the open-webui server interface.
 
 An example of custom-overrides.yaml: Here we are using self-signed suse-private-ai TLS option:
@@ -170,7 +181,7 @@ Verification of suse-private-ai generated certificates:
 openssl s_client -connect <open-webui-host>:443 -servername <open-webui host>
 ```
 
-#### 6b. Using letsEncrypt option
+#### 7b. Using letsEncrypt option
 This option uses `cert-manager` to automatically request and renew [Let's Encrypt](https://letsencrypt.org/) certificates. This is a free service that provides you with a valid certificate as Let's Encrypt is a trusted CA.
 
 Note: When using letsEncrypt, there must be a public DNS record, and the IP must be public so letsEncrypt can successfully send a challenge to that IP.
@@ -220,7 +231,7 @@ openssl s_client -connect <open-webui-host>:443
 
 ```
 
-#### 6c. Certificates from Files
+#### 7c. Certificates from Files
 In this option, Kubernetes secrets are created from your own certificates for suse-private-ai to use.
 
 The `open-webui.ingress.host` option must match the `Common Name` or a `Subject Alternative Names` entry in the server certificate or the Ingress controller will fail to configure correctly.
@@ -276,7 +287,7 @@ kubectl -n suse-private-ai create secret tls suse-private-ai-tls \
 If you want to replace the certificate, you can delete the `suse-private-ai-tls` secret using `kubectl -n suse-private-ai delete secret suse-private-ai-tls` and add a new one using the command shown above.
 
 
-### 7. Verify that the components of the suse-private-ai are successfully deployed
+### 8. Verify that the components of the suse-private-ai are successfully deployed
 
 ```bash
 kubectl get all -n suse-private-ai
