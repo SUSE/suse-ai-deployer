@@ -3,13 +3,13 @@ dependencies:
   repository: oci://dp.apps.rancher.io/charts
   version: 0.2.1
 - name: minio
-  repository: https://zilliztech.github.io/milvus-helm
-  version: 8.0.17
+  repository: oci://dp.apps.rancher.io/charts
+  version: 5.2.0
 - name: pulsar
   repository: https://pulsar.apache.org/charts
   version: 2.7.8
 - name: kafka
   repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
   version: 15.5.1
-digest: sha256:118167645c58b26b0250a4982d783f6ec17c676fb4bbb9d3831da1c97621eeb0
-generated: "2024-09-26T13:40:49.404326708-07:00"
+digest: sha256:ac48979646c6a96ec8466ac9ce188b853ad8fbed4b9c339eb70f394f45925454
+generated: "2024-10-10T10:09:51.325164594-07:00"

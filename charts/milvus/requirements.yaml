@@ -6,8 +6,8 @@ dependencies:
   tags:
     - etcd
 - name: minio
-  version: 8.0.17
-  repository: https://zilliztech.github.io/milvus-helm
+  version: 5.2.0
+  repository: oci://dp.apps.rancher.io/charts
   condition: minio.enabled
   tags:
     - minio

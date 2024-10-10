@@ -73,7 +73,12 @@ milvus:
     persistence:
       storageClassName: ""
   minio:
+    global:
+      imagePullSecrets:
+        - application-collection
     mode: standalone
+    rootUser: "minioadmin"
+    rootPassword: "minioadmin"
     persistence:
       storageClass: ""
   pulsar:
