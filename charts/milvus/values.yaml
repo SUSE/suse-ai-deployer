@@ -517,16 +517,16 @@ attu:
 
 
 ## Configuration values for the minio dependency
-## ref: https://github.com/zilliztech/milvus-helm/blob/master/charts/minio/README.md
-##
 
 minio:
   enabled: true
   name: minio
   mode: distributed
   image:
-    tag: "RELEASE.2023-03-20T20-16-18Z"
+    repository: containers/minio
+    tag: 0.20241002.175041
     pullPolicy: IfNotPresent
+    registry: dp.apps.rancher.io
   accessKey: minioadmin
   secretKey: minioadmin
   existingSecret: ""
