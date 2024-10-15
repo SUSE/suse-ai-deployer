@@ -527,8 +527,8 @@ minio:
     tag: 0.20241002.175041
     pullPolicy: IfNotPresent
     registry: dp.apps.rancher.io
-  accessKey: minioadmin
-  secretKey: minioadmin
+  rootUser: "minioadmin"
+  rootPassword: "minioadmin"
   existingSecret: ""
   bucketName: "milvus-bucket"
   rootPath: file

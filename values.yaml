@@ -76,7 +76,7 @@ milvus:
     global:
       imagePullSecrets:
         - application-collection
-    mode: standalone
+    mode: distributed
     rootUser: "minioadmin"
     rootPassword: "minioadmin"
     persistence:

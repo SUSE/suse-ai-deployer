@@ -123,7 +123,7 @@ helm upgrade --install \
   --create-namespace
 ```
 
-Depending on the TLS configuration and your other customization needs, you can create a custom-overrides.yaml file and deploy. The SUSE Private AI chart configuration has many options for customizing the installation to suit your specific environment.
+Depending on the TLS configuration and your *other* customization needs, you can create a custom-overrides.yaml file and deploy. The SUSE Private AI chart configuration has many options for customizing the installation to suit your specific environment.
 
 ```bash
 helm upgrade --install \
@@ -149,6 +149,9 @@ global:
   tls:
     source: suse-private-ai
     issuerName: suse-private-ai
+ollama:
+  ingress:
+    enabled: false
 open-webui:
   ollamaUrls:
   - http://suse-private-ai-ollama.suse-private-ai.svc.cluster.local:11434
@@ -174,6 +177,29 @@ open-webui:
     value: "gemma:2b"
   - name: DEFAULT_USER_ROLE
     value: "user"
+  - name: VECTOR_DB
+    value: "milvus"
+  - name: MILVUS_URI
+    value: http://suse-private-ai-milvus.suse-private-ai.svc.cluster.local:19530
+milvus:
+  enabled: True
+  cluster:
+    enabled: True
+  standalone:
+    persistence:
+      persistentVolumeClaim:
+        storageClass: local-path
+  etcd:
+    replicaCount: 1
+    persistence:
+      storageClassName: local-path
+  minio:
+    mode: standalone
+    persistence:
+      storageClass: local-path
+  pulsar:
+    enabled: True
+
 ```
 
 Verification of suse-private-ai generated certificates:
@@ -186,7 +212,7 @@ This option uses `cert-manager` to automatically request and renew [Let's Encryp
 
 Note: When using letsEncrypt, there must be a public DNS record, and the IP must be public so letsEncrypt can successfully send a challenge to that IP.
 
-An example of custom-overrides.yaml: Here we are using letsEncrypt TLS option:
+An example of custom-overrides.yaml: Here we are using letsEncrypt TLS option with local storage for persistence:
 ```bash
 global:
   tls:
@@ -223,6 +249,28 @@ open-webui:
     value: "gemma:2b"
   - name: DEFAULT_USER_ROLE
     value: "user"
+  - name: VECTOR_DB
+    value: "milvus"
+  - name: MILVUS_URI
+    value: http://suse-private-ai-milvus.suse-private-ai.svc.cluster.local:19530
+milvus:
+  enabled: True
+  cluster:
+    enabled: True
+  standalone:
+    persistence:
+      persistentVolumeClaim:
+        storageClass: local-path
+  etcd:
+    replicaCount: 1
+    persistence:
+      storageClassName: local-path
+  minio:
+    mode: standalone
+    persistence:
+      storageClass: local-path
+  pulsar:
+    enabled: True
 ```
 
 Verification of letsEncrypted generated certificates:
@@ -238,7 +286,7 @@ The `open-webui.ingress.host` option must match the `Common Name` or a `Subject 
 
 Although an entry in the `Subject Alternative Names` is technically required, having a matching `Common Name` maximizes compatibility with older browsers and applications. Recent versions of Kubernetes and other software require the use of Subject Alternative Names (SANs) in certificates instead of relying solely on the Common Name (CN) field
 
-An example of custom-overrides.yaml: Here we are using secret TLS option for custom certificates:
+An example of custom-overrides.yaml: Here we are using secret TLS option for custom certificates and local storage for persistence:
 ```bash
 global:
   tls:
@@ -268,6 +316,28 @@ open-webui:
     value: "gemma:2b"
   - name: DEFAULT_USER_ROLE
     value: "user"
+  - name: VECTOR_DB
+    value: "milvus"
+  - name: MILVUS_URI
+    value: http://suse-private-ai-milvus.suse-private-ai.svc.cluster.local:19530
+milvus:
+  enabled: True
+  cluster:
+    enabled: True
+  standalone:
+    persistence:
+      persistentVolumeClaim:
+        storageClass: local-path
+  etcd:
+    replicaCount: 1
+    persistence:
+      storageClassName: local-path
+  minio:
+    mode: standalone
+    persistence:
+      storageClass: local-path
+  pulsar:
+    enabled: True
 ```
 Kubernetes will create all the objects and services for SUSE Private AI, but it will not become available until we populate the `suse-private-ai-tls` secret in the `suse-private-ai` namespace with the certificate and key.
 
@@ -291,26 +361,79 @@ If you want to replace the certificate, you can delete the `suse-private-ai-tls`
 
 ```bash
 kubectl get all -n suse-private-ai
-NAME                                          READY   STATUS    RESTARTS   AGE
-pod/open-webui-0                              1/1     Running   0          98m
-pod/open-webui-pipelines-5d5b86d8-ft6qx       1/1     Running   0          98m
-pod/suse-private-ai-ollama-7896cc4787-6zs7z   1/1     Running   0          98m
+NAME                                                    READY   STATUS      RESTARTS        AGE
+pod/open-webui-0                                        1/1     Running     3 (116s ago)    6m22s
+pod/open-webui-pipelines-5d5b86d8-wqmcf                 1/1     Running     0               6m23s
+pod/suse-private-ai-etcd-0                              1/1     Running     0               6m22s
+pod/suse-private-ai-milvus-datanode-b7cc5f587-8pxpg     1/1     Running     3 (4m14s ago)   6m23s
+pod/suse-private-ai-milvus-indexnode-7b67cb9596-599f5   1/1     Running     3 (4m14s ago)   6m23s
+pod/suse-private-ai-milvus-mixcoord-75f69cf67-srxsp     1/1     Running     3 (4m14s ago)   6m23s
+pod/suse-private-ai-milvus-proxy-67599d4589-7dwts       1/1     Running     3 (4m14s ago)   6m23s
+pod/suse-private-ai-milvus-querynode-579c7d644b-t5j29   1/1     Running     3 (4m14s ago)   6m23s
+pod/suse-private-ai-minio-559d4b9c78-w4jxp              1/1     Running     0               6m23s
+pod/suse-private-ai-ollama-679f4cc5bd-hj57f             1/1     Running     0               6m23s
+pod/suse-private-ai-pulsar-bookie-0                     1/1     Running     0               6m23s
+pod/suse-private-ai-pulsar-bookie-1                     1/1     Running     0               6m22s
+pod/suse-private-ai-pulsar-bookie-init-556rj            0/1     Completed   0               6m23s
+pod/suse-private-ai-pulsar-broker-0                     1/1     Running     0               6m23s
+pod/suse-private-ai-pulsar-broker-1                     1/1     Running     1 (3m10s ago)   6m23s
+pod/suse-private-ai-pulsar-proxy-0                      1/1     Running     0               6m23s
+pod/suse-private-ai-pulsar-pulsar-init-ztlxt            0/1     Completed   0               6m23s
+pod/suse-private-ai-pulsar-recovery-0                   1/1     Running     0               6m23s
+pod/suse-private-ai-pulsar-zookeeper-0                  1/1     Running     0               6m23s
 
-NAME                             TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)     AGE
-service/open-webui               ClusterIP   10.110.188.43   <none>        80/TCP      98m
-service/open-webui-pipelines     ClusterIP   10.100.56.69    <none>        9099/TCP    98m
-service/suse-private-ai-ollama   ClusterIP   10.109.216.49   <none>        11434/TCP   98m
+NAME                                       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                               AGE
+service/open-webui                         ClusterIP   10.43.134.239   <none>        80/TCP                                6m23s
+service/open-webui-pipelines               ClusterIP   10.43.178.14    <none>        9099/TCP                              6m23s
+service/suse-private-ai-etcd               ClusterIP   10.43.245.64    <none>        2379/TCP,2380/TCP                     6m23s
+service/suse-private-ai-etcd-headless      ClusterIP   None            <none>        2379/TCP,2380/TCP                     6m23s
+service/suse-private-ai-milvus             ClusterIP   10.43.213.10    <none>        19530/TCP,9091/TCP                    6m23s
+service/suse-private-ai-milvus-datanode    ClusterIP   None            <none>        9091/TCP                              6m23s
+service/suse-private-ai-milvus-indexnode   ClusterIP   None            <none>        9091/TCP                              6m23s
+service/suse-private-ai-milvus-mixcoord    ClusterIP   10.43.131.129   <none>        9091/TCP                              6m23s
+service/suse-private-ai-milvus-querynode   ClusterIP   None            <none>        9091/TCP                              6m23s
+service/suse-private-ai-minio              ClusterIP   10.43.69.110    <none>        9000/TCP                              6m23s
+service/suse-private-ai-minio-console      ClusterIP   10.43.185.210   <none>        9001/TCP                              6m23s
+service/suse-private-ai-ollama             ClusterIP   10.43.48.243    <none>        11434/TCP                             6m23s
+service/suse-private-ai-pulsar-bookie      ClusterIP   None            <none>        3181/TCP,8000/TCP                     6m23s
+service/suse-private-ai-pulsar-broker      ClusterIP   None            <none>        8080/TCP,6650/TCP                     6m23s
+service/suse-private-ai-pulsar-proxy       ClusterIP   10.43.2.89      <none>        8080/TCP,6650/TCP                     6m23s
+service/suse-private-ai-pulsar-recovery    ClusterIP   None            <none>        8000/TCP                              6m23s
+service/suse-private-ai-pulsar-zookeeper   ClusterIP   None            <none>        8000/TCP,2888/TCP,3888/TCP,2181/TCP   6m23s
 
-NAME                                     READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/open-webui-pipelines     1/1     1            1           98m
-deployment.apps/suse-private-ai-ollama   1/1     1            1           98m
+NAME                                               READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/open-webui-pipelines               1/1     1            1           6m23s
+deployment.apps/suse-private-ai-milvus-datanode    1/1     1            1           6m23s
+deployment.apps/suse-private-ai-milvus-indexnode   1/1     1            1           6m23s
+deployment.apps/suse-private-ai-milvus-mixcoord    1/1     1            1           6m23s
+deployment.apps/suse-private-ai-milvus-proxy       1/1     1            1           6m23s
+deployment.apps/suse-private-ai-milvus-querynode   1/1     1            1           6m23s
+deployment.apps/suse-private-ai-minio              1/1     1            1           6m23s
+deployment.apps/suse-private-ai-ollama             1/1     1            1           6m23s
 
-NAME                                                DESIRED   CURRENT   READY   AGE
-replicaset.apps/open-webui-pipelines-5d5b86d8       1         1         1       98m
-replicaset.apps/suse-private-ai-ollama-7896cc4787   1         1         1       98m
+NAME                                                          DESIRED   CURRENT   READY   AGE
+replicaset.apps/open-webui-pipelines-5d5b86d8                 1         1         1       6m23s
+replicaset.apps/suse-private-ai-milvus-datanode-b7cc5f587     1         1         1       6m23s
+replicaset.apps/suse-private-ai-milvus-indexnode-7b67cb9596   1         1         1       6m23s
+replicaset.apps/suse-private-ai-milvus-mixcoord-75f69cf67     1         1         1       6m23s
+replicaset.apps/suse-private-ai-milvus-proxy-67599d4589       1         1         1       6m23s
+replicaset.apps/suse-private-ai-milvus-querynode-579c7d644b   1         1         1       6m23s
+replicaset.apps/suse-private-ai-minio-559d4b9c78              1         1         1       6m23s
+replicaset.apps/suse-private-ai-ollama-679f4cc5bd             1         1         1       6m23s
 
-NAME                          READY   AGE
-statefulset.apps/open-webui   1/1     98m
+NAME                                                READY   AGE
+statefulset.apps/open-webui                         1/1     6m23s
+statefulset.apps/suse-private-ai-etcd               1/1     6m23s
+statefulset.apps/suse-private-ai-pulsar-bookie      2/2     6m23s
+statefulset.apps/suse-private-ai-pulsar-broker      2/2     6m23s
+statefulset.apps/suse-private-ai-pulsar-proxy       1/1     6m23s
+statefulset.apps/suse-private-ai-pulsar-recovery    1/1     6m23s
+statefulset.apps/suse-private-ai-pulsar-zookeeper   1/1     6m23s
+
+NAME                                           STATUS     COMPLETIONS   DURATION   AGE
+job.batch/suse-private-ai-pulsar-bookie-init   Complete   1/1           2m41s      6m23s
+job.batch/suse-private-ai-pulsar-pulsar-init   Complete   1/1           2m56s      6m23s
+
 ```
 
 Point your browser to ```https://<open-webui host>``` to access the open-webui. For more details on open-webui, checkout https://docs.openwebui.com/ 
