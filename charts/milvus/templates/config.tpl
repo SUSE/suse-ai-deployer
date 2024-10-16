@@ -10,18 +10,6 @@
 # is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
 # or implied. See the License for the specific language governing permissions and limitations under the License.
 
-
-{{- $etcdReleaseName := "" -}}
-{{- if contains .Values.etcd.name .Release.Name }}
-  {{- $etcdReleaseName = printf "%s" .Release.Name -}}
-{{- else }}
-  {{- $etcdReleaseName = printf "%s-%s" .Release.Name  .Values.etcd.name -}}
-{{- end }}
-
-{{- $etcdPort := .Values.etcd.service.port }}
-
-{{- $namespace := .Release.Namespace }}
-
 etcd:
 {{- if .Values.externalEtcd.enabled }}
   endpoints:
@@ -30,8 +18,10 @@ etcd:
   {{- end }}
 {{- else }}
   endpoints:
-{{- range $i := until ( .Values.etcd.replicaCount | int ) }}
-  - {{ $etcdReleaseName }}-{{ $i }}.{{ $etcdReleaseName }}-headless.{{ $namespace }}.svc.cluster.local:{{ $etcdPort }}
+{{- if contains .Values.etcd.name .Release.Name }}
+    - {{ .Release.Name }}:{{ .Values.etcd.service.port }}
+{{- else }}
+    - {{ .Release.Name }}-{{ .Values.etcd.name }}:{{ .Values.etcd.service.port }}
 {{- end }}
 {{- end }}
 
@@ -64,8 +54,8 @@ minio:
   address: {{ .Release.Name }}-{{ .Values.minio.name }}
 {{- end }}
   port: {{ .Values.minio.service.port }}
-  accessKeyID: {{ .Values.minio.accessKey }}
-  secretAccessKey: {{ .Values.minio.secretKey }}
+  accessKeyID: {{ .Values.minio.rootUser }}
+  secretAccessKey: {{ .Values.minio.rootPassword }}
   useSSL: {{ .Values.minio.tls.enabled }}
   bucketName: {{ .Values.minio.bucketName }}
   rootPath: {{ .Values.minio.rootPath }}
