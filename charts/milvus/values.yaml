@@ -11,7 +11,7 @@ cluster:
 image:
   all:
     repository: milvusdb/milvus
-    tag: v2.4.10
+    tag: v2.4.6
     pullPolicy: IfNotPresent
     ## Optionally specify an array of imagePullSecrets.
     ## Secrets must be manually created in the namespace.
@@ -43,13 +43,6 @@ affinity: {}
 # If set, this will apply to all milvus components
 labels: {}
 annotations: {}
-
-# Experimental feature: streaming node
-# Only support standalone mode with rocksmq and pulsar message queue,
-# cluster mode with pulsar message queue.
-# Experimental feature, not recommended for production.
-streaming:
-  enabled: false
 
 ##
 ## If set, the whole config will be mounted from this custom ConfigMap.
@@ -282,7 +275,7 @@ proxy:
   strategy: {}
 
 rootCoordinator:
-  enabled: false
+  enabled: true
   # You can set the number of replicas greater than 1, only if enable active standby
   replicas: 1  # Run Root Coordinator mode with replication disabled
   resources: {}
@@ -307,7 +300,7 @@ rootCoordinator:
     clusterIP: ""
 
 queryCoordinator:
-  enabled: false
+  enabled: true
   # You can set the number of replicas greater than 1, only if enable active standby
   replicas: 1  # Run Query Coordinator mode with replication disabled
   resources: {}
@@ -357,7 +350,7 @@ queryNode:
   strategy: {}
 
 indexCoordinator:
-  enabled: false
+  enabled: true
   # You can set the number of replicas greater than 1, only if enable active standby
   replicas: 1   # Run Index Coordinator mode with replication disabled
   resources: {}
@@ -406,7 +399,7 @@ indexNode:
   strategy: {}
 
 dataCoordinator:
-  enabled: false
+  enabled: true
   # You can set the number of replicas greater than 1, only if enable active standby
   replicas: 1           # Run Data Coordinator mode with replication disabled
   resources: {}
@@ -450,7 +443,7 @@ dataNode:
 ## mixCoordinator contains all coord
 ## If you want to use mixcoord, enable this and disable all of other coords
 mixCoordinator:
-  enabled: true
+  enabled: false
   # You can set the number of replicas greater than 1, only if enable active standby
   replicas: 1           # Run Mixture Coordinator mode with replication disabled
   resources: {}
@@ -473,25 +466,12 @@ mixCoordinator:
     labels: {}
     clusterIP: ""
 
-streamingNode:
-  replicas: 1
-  resources: {}
-  nodeSelector: {}
-  affinity: {}
-  tolerations: []
-  extraEnv: []
-  heaptrack:
-    enabled: false
-  profiling:
-    enabled: false  # Enable live profiling
-  strategy: {}
-
 attu:
   enabled: false
   name: attu
   image:
     repository: zilliz/attu
-    tag: v2.4.7
+    tag: v2.3.10
     pullPolicy: IfNotPresent
   service:
     annotations: {}
@@ -578,19 +558,11 @@ minio:
     failureThreshold: 60
 
 ## Configuration values for the etcd dependency
-## ref: https://artifacthub.io/packages/helm/bitnami/etcd
-##
 
 etcd:
   enabled: true
   name: etcd
   replicaCount: 3
-  pdb:
-    create: false
-  image:
-    repository: "milvusdb/etcd"
-    tag: "3.5.14-r1"
-    pullPolicy: IfNotPresent
 
   service:
     type: ClusterIP
