@@ -1,3 +1,6 @@
+#### ⚠️ Warning
+This umbrella chart is used for development/testing of the deployment of the AI stack components.
+
 # SUSE Private AI stack
 
 SUSE private ai stack provides SUSE customers to easily install an industry standard AI stack to run AI workloads using trusted containers with support for GPU hardware acceleration.
