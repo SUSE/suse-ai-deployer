@@ -20,9 +20,9 @@ global:
 # Ollama subchart overrides - see the charts/ollama for additional entries
 ollama:
   image:
-    repository: registry.opensuse.org/home/esampson/ai/15_6_container/suse/private-ai/ollama
+    repository: ghcr.io/brett060102/ollama
     pullPolicy: IfNotPresent
-    tag: ""
+    tag: "latest"
   ingress:
     enabled: false #Disabled - ollama endpoint is internal. Do not enable ingress.
   defaultModel: "gemma:2b"
