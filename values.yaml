@@ -40,7 +40,7 @@ open-webui:
   ollamaUrls:
   - http://suse-private-ai-ollama.suse-private-ai.svc.cluster.local:11434 #Internally accessible ollama endpoint
   image:
-    repository: ghcr.io/open-webui/open-webui
+    repository: ghcr.io/brett060102/open-webui
     tag: "v0.3.32"
     pullPolicy: "IfNotPresent"
   ingress:
