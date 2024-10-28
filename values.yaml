@@ -22,7 +22,7 @@ ollama:
   image:
     repository: ghcr.io/brett060102/ollama
     pullPolicy: IfNotPresent
-    tag: "latest"
+    tag: ""
   ingress:
     enabled: false #Disabled - ollama endpoint is internal. Do not enable ingress.
   defaultModel: "gemma:2b"
