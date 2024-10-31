@@ -56,6 +56,8 @@ open-webui:
     value: "gemma:2b"
   - name: DEFAULT_USER_ROLE
     value: "user"
+  - name: WEBUI_NAME
+    value: "SUSE AI"
   - name: VECTOR_DB
     value: "milvus"
   - name: MILVUS_URI
