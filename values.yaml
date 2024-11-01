@@ -64,6 +64,7 @@ open-webui:
     value: http://suse-private-ai-milvus.suse-private-ai.svc.cluster.local:19530
 
 # milvus subchart overrides - see the charts/milvus for additional entries
+# Note: SUSE does not support heaptrack, attu, pulsar-manager, kafka enablement
 milvus:
   enabled: true
   cluster:
