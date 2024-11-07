@@ -20,7 +20,7 @@ global:
 # Ollama subchart overrides - see the charts/ollama for additional entries
 ollama:
   image:
-    repository: ghcr.io/brett060102/ollama
+    repository: ghcr.io/brett060102-test/ollama
     pullPolicy: IfNotPresent
     tag: ""
   ingress:
@@ -29,6 +29,26 @@ ollama:
   ollama:
     models:
     - "gemma:2b"
+
+    gpu:
+      # -- Enable GPU integration
+      enabled: false
+
+      # -- GPU type: 'nvidia' or 'amd'
+      # If 'ollama.gpu.enabled', default value is nvidia
+      # If set to 'amd', this will add 'rocm' suffix to image tag if 'image.tag' is not override
+      # This is due cause AMD and CPU/CUDA are different images
+      type: 'nvidia'
+
+      # -- Specify the number of GPU
+      # If you use MIG section below then this parameter is ignored
+      number: 1
+
+      # -- only for nvidia cards; change to (example) 'nvidia.com/mig-1g.10gb' to use MIG slice
+      nvidiaResource: "nvidia.com/gpu"
+      # nvidiaResource: "nvidia.com/mig-1g.10gb" # example
+      # If you want to use more than one NVIDIA MIG you can use the following syntax (then nvidiaResource is ignored and only the configuration in the following MIG section is used)
+      #
 
 # open-webui subchart overrides - see the charts/open-webui for additional entries
 open-webui:
@@ -40,7 +60,7 @@ open-webui:
   ollamaUrls:
   - http://suse-private-ai-ollama.suse-private-ai.svc.cluster.local:11434 #Internally accessible ollama endpoint
   image:
-    repository: ghcr.io/brett060102/open-webui
+    repository: ghcr.io/brett060102-test/open-webui
     tag: "v0.3.32"
     pullPolicy: "IfNotPresent"
   ingress:
