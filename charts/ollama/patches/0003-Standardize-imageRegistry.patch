@@ -1,0 +1,63 @@
+From aa141a98a08444e54fe8aa11d716a309d5eddfe5 Mon Sep 17 00:00:00 2001
+From: mbelur <mbelur@suse.com>
+Date: Wed, 23 Oct 2024 16:38:36 -0700
+Subject: [PATCH 3/3] Standardize-imageRegistry
+
+---
+ packages/ollama/0.3/templates/deployment.yaml     | 7 ++-----
+ .../packages/ollama/0.3/templates/knative/service.yaml   | 7 ++-----
+ 2 files changed, 4 insertions(+), 10 deletions(-)
+
+diff --git a/packages/ollama/0.3/templates/deployment.yaml b/packages/ollama/0.3/templates/deployment.yaml
+index 141c757..ec5287a 100644
+--- a/packages/ollama/0.3/templates/deployment.yaml
++++ b/packages/ollama/0.3/templates/deployment.yaml
+@@ -36,10 +36,7 @@ spec:
+       {{- if .Values.hostNetwork }}
+       hostNetwork: {{ .Values.hostNetwork }}
+       {{- end }}
+-      {{- with .Values.imagePullSecrets }}
+-      imagePullSecrets:
+-        {{- toYaml . | nindent 8 }}
+-      {{- end }}
++      {{- include "ollama.imagePullSecrets" . | nindent 6 }}
+       serviceAccountName: {{ include "ollama.serviceAccountName" . }}
+       securityContext:
+         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+@@ -54,7 +51,7 @@ spec:
+         - name: {{ .Chart.Name }}
+           securityContext:
+             {{- toYaml .Values.securityContext | nindent 12 }}
+-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag |  default (ternary (printf "%s-rocm" .Chart.AppVersion) (.Chart.AppVersion) (and (.Values.ollama.gpu.enabled) (eq .Values.ollama.gpu.type "amd"))) }}"
++          image: "{{ with (coalesce .Values.global.imageRegistry .Values.image.registry) }}{{ . }}/{{ end }}{{ .Values.image.repository }}:{{ .Values.image.tag |  default (ternary (printf "%s-rocm" .Chart.AppVersion) (.Chart.AppVersion) (and (.Values.ollama.gpu.enabled) (eq .Values.ollama.gpu.type "amd"))) }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           ports:
+             - name: http
+diff --git a/packages/ollama/0.3/templates/knative/service.yaml b/packages/ollama/0.3/templates/knative/service.yaml
+index 4c53647..0d4329b 100644
+--- a/packages/ollama/0.3/templates/knative/service.yaml
++++ b/packages/ollama/0.3/templates/knative/service.yaml
+@@ -12,10 +12,7 @@ spec:
+       timeoutSeconds: {{ .Values.knative.timeoutSeconds }}
+       responseStartTimeoutSeconds: {{ .Values.knative.responseStartTimeoutSeconds }}
+       idleTimeoutSeconds: {{ .Values.knative.idleTimeoutSeconds }}
+-      {{- with .Values.imagePullSecrets }}
+-      imagePullSecrets:
+-        {{- toYaml . | nindent 8 }}
+-      {{- end }}
++      {{- include "ollama.imagePullSecrets" . | nindent 6 }}
+       serviceAccountName: {{ include "ollama.serviceAccountName" . }}
+       {{- if .Values.runtimeClassName }}
+       runtimeClassName: {{ .Values.runtimeClassName | quote }}
+@@ -25,7 +22,7 @@ spec:
+         {{- tpl (toYaml . ) $ | nindent 8 }}
+       {{- end }}
+       containers:
+-        - image: "{{ .Values.image.repository }}:{{ .Values.image.tag |  default (ternary (printf "%s-rocm" .Chart.AppVersion) (.Chart.AppVersion) (and (.Values.ollama.gpu.enabled) (eq .Values.ollama.gpu.type "amd"))) }}"
++        - image: "{{ with (coalesce .Values.global.imageRegistry .Values.image.registry) }}{{ . }}/{{ end }}{{ .Values.image.repository }}:{{ .Values.image.tag |  default (ternary (printf "%s-rocm" .Chart.AppVersion) (.Chart.AppVersion) (and (.Values.ollama.gpu.enabled) (eq .Values.ollama.gpu.type "amd"))) }}"
+           imagePullPolicy: {{ .Values.image.pullPolicy }}
+           securityContext:
+             {{- toYaml .Values.securityContext | nindent 12 }}
+-- 
+2.43.0
+
