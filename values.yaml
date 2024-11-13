@@ -20,7 +20,8 @@ global:
 # Ollama subchart overrides - see the charts/ollama for additional entries
 ollama:
   image:
-    repository: ghcr.io/brett060102/ollama
+    registry: ghcr.io
+    repository: brett060102/ollama
     pullPolicy: IfNotPresent
     tag: ""
   ingress:

@@ -1,7 +1,7 @@
 dependencies:
 - name: ollama
   repository: file://charts/ollama
-  version: 0.48.0
+  version: 0.54.0
 - name: open-webui
   repository: file://charts/open-webui
   version: 3.1.1

@@ -1,13 +1,6 @@
-![otwld ollama helm chart banner](./banner.png)
-
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/ollama-helm)](https://artifacthub.io/packages/search?repo=ollama-helm)
-[![Build Status](https://drone.outworld.fr/api/badges/otwld/ollama-helm/status.svg)](https://drone.outworld.fr/otwld/ollama-helm)
-[![Discord](https://img.shields.io/badge/Discord-OTWLD-blue?logo=discord&logoColor=white)](https://discord.gg/U24mpqTynB)
-
-
 [Ollama](https://ollama.ai/), get up and running with large language models, locally.
 
-This Community Chart is for deploying [Ollama](https://github.com/ollama/ollama). 
+This Chart is for deploying [Ollama](https://github.com/ollama/ollama). 
 
 ## Requirements
 
@@ -19,32 +12,22 @@ This Community Chart is for deploying [Ollama](https://github.com/ollama/ollama)
 
 ## Deploying Ollama chart
 
-To install the `ollama` chart in the `ollama` namespace:
+To install the `ollama` chart:
+
+Assume the release name is `my-release`:
 
 ```console
-helm repo add ollama-helm https://otwld.github.io/ollama-helm/
-helm repo update
-helm install ollama ollama-helm/ollama --namespace ollama
-```
-
-## Upgrading Ollama chart
-
-First please read the [release notes](https://github.com/ollama/ollama/releases) of Ollama to make sure there are no backwards incompatible changes.
-
-Make adjustments to your values as needed, then run `helm upgrade`:
-
-```console
-# -- This pulls the latest version of the ollama chart from the repo.
-helm repo update
-helm upgrade ollama ollama-helm/ollama --namespace ollama --values values.yaml
+helm install my-release \
+    --set 'global.imagePullSecrets[0].name'=my-pull-secrets \
+    oci://dp.apps.rancher.io/charts/ollama
 ```
 
 ## Uninstalling Ollama chart
 
-To uninstall/delete the `ollama` deployment in the `ollama` namespace:
+To uninstall/delete the `ollama` deployment:
 
 ```console
-helm delete ollama --namespace ollama
+helm uninstall my-release
 ```
 
 Substitute your values if they differ from the examples. See `helm delete --help` for a full reference on `delete` parameters and flags.
@@ -111,12 +94,15 @@ ingress:
 | extraArgs | list | `[]` | Additional arguments on the output Deployment definition. |
 | extraEnv | list | `[]` | Additional environments variables on the output Deployment definition. |
 | fullnameOverride | string | `""` | String to fully override template |
+| global.imagePullSecrets | list | `[]` | Global override for container image registry pull secrets |
+| global.imageRegistry | string | `""` | Global override for container image registry |
 | hostIPC | bool | `false` | Use the host’s ipc namespace. |
 | hostNetwork | bool | `false` | Use the host's network namespace. |
 | hostPID | bool | `false` | Use the host’s pid namespace |
-| image.pullPolicy | string | `"IfNotPresent"` | Docker pull policy |
-| image.repository | string | `"ollama/ollama"` | Docker image registry |
-| image.tag | string | `""` | Docker image tag, overrides the image tag whose default is the chart appVersion. |
+| image.pullPolicy | string | `"IfNotPresent"` | Image pull policy to use for the ollama container |
+| image.registry | string | `"dp.apps.rancher.io"` | Image registry to use for the ollama container |
+| image.repository | string | `"containers/ollama"` | Image repository to use for the ollama container |
+| image.tag | string | `"0.3.6"` | Image tag to use for the ollama container |
 | imagePullSecrets | list | `[]` | Docker registry secret names as an array |
 | ingress.annotations | object | `{}` | Additional annotations for the Ingress resource. |
 | ingress.className | string | `""` | IngressClass that will be used to implement the Ingress (Kubernetes 1.18+) |
@@ -186,68 +172,3 @@ ingress:
 | volumeMounts | list | `[]` | Additional volumeMounts on the output Deployment definition. |
 | volumes | list | `[]` | Additional volumes on the output Deployment definition. |
 ----------------------------------------------
-
-## Core team
-
-<table>
-    <tr>
-       <td align="center">
-            <a href="https://github.com/jdetroyes"
-                ><img
-                    src="https://github.com/jdetroyes.png?size=200"
-                    width="50"
-                    style="margin-bottom: -4px; border-radius: 8px;"
-                    alt="Jean Baptiste Detroyes"
-                /><br /><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Jean Baptiste&nbsp;Detroyes&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></a
-            >
-            <div style="margin-top: 4px">
-                <a href="https://github.com/jdetroyes" title="Github"
-                    ><img
-                        width="16"
-                        src="https://raw.githubusercontent.com/MarsiBarsi/readme-icons/main/github.svg"
-                /></a>
-                <a
-                    href="mailto:jdetroyes@otwld.com"
-                    title="Email"
-                    ><img
-                        width="16"
-                        src="https://raw.githubusercontent.com/MarsiBarsi/readme-icons/main/send.svg"
-                /></a>
-            </div>
-        </td>
-       <td align="center">
-            <a href="https://github.com/ntrehout"
-                ><img
-                    src="https://github.com/ntrehout.png?size=200"
-                    width="50"
-                    style="margin-bottom: -4px; border-radius: 8px;"
-                    alt="Jean Baptiste Detroyes"
-                /><br /><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Nathan&nbsp;Tréhout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b></a
-            >
-            <div style="margin-top: 4px">
-                <a href="https://x.com/n_trehout" title="Twitter"
-                    ><img
-                        width="16"
-                        src="https://raw.githubusercontent.com/MarsiBarsi/readme-icons/main/twitter.svg"
-                /></a>
-                <a href="https://github.com/ntrehout" title="Github"
-                    ><img
-                        width="16"
-                        src="https://raw.githubusercontent.com/MarsiBarsi/readme-icons/main/github.svg"
-                /></a>
-                <a
-                    href="mailto:ntrehout@otwld.com"
-                    title="Email"
-                    ><img
-                        width="16"
-                        src="https://raw.githubusercontent.com/MarsiBarsi/readme-icons/main/send.svg"
-                /></a>
-            </div>
-        </td>
-    </tr>
-</table>
-
-## Support
-
-- For questions, suggestions, and discussion about Ollama please refer to the [Ollama issue page](https://github.com/ollama/ollama/issues)
-- For questions, suggestions, and discussion about this chart please visit [Ollama-Helm issue page](https://github.com/otwld/ollama-helm/issues) or join our [OTWLD Discord](https://discord.gg/U24mpqTynB)
