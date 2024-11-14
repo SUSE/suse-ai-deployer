@@ -606,6 +606,9 @@ etcd:
 ##
 
 pulsar:
+  defaultPulsarImageRepository: rtamalin/pulsar
+  defaultPulsarImageTag: 3.3.2
+  defaultPullPolicy: IfNotPresent
   enabled: true
   name: pulsar
 
@@ -641,33 +644,9 @@ pulsar:
     node_exporter: false
     alert_manager: false
 
-  images:
-    broker:
-      repository: apachepulsar/pulsar
-      pullPolicy: IfNotPresent
-      tag: 2.9.5
-    autorecovery:
-      repository: apachepulsar/pulsar
-      tag: 2.9.5
-      pullPolicy: IfNotPresent
-    zookeeper:
-      repository: apachepulsar/pulsar
-      pullPolicy: IfNotPresent
-      tag: 2.9.5
-    bookie:
-      repository: apachepulsar/pulsar
-      pullPolicy: IfNotPresent
-      tag: 2.9.5
-    proxy:
-      repository: apachepulsar/pulsar
-      pullPolicy: IfNotPresent
-      tag: 2.9.5
-    pulsar_manager:
-      repository: apachepulsar/pulsar-manager
-      pullPolicy: IfNotPresent
-      tag: v0.1.0
-
   zookeeper:
+    podMonitor:
+      enabled: false
     resources:
       requests:
         memory: 1024Mi
@@ -722,6 +701,8 @@ pulsar:
         -XX:+PerfDisableSharedMem
         -XX:+PrintGCDetails
       nettyMaxFrameSizeBytes: "104867840"
+    podMonitor:
+      enabled: false
     pdb:
       usePolicy: false
 
@@ -762,6 +743,8 @@ pulsar:
       usePolicy: false
 
   autorecovery:
+    podMonitor:
+      enabled: false
     resources:
       requests:
         memory: 512Mi
@@ -797,9 +780,10 @@ pulsar:
     component: pulsar-init
     image:
       # the image used for running `pulsar-cluster-initialize` job
-      repository: apachepulsar/pulsar
-      tag: 2.9.5
-
+      repository: rtamalin/pulsar
+      tag: 3.3.2
+  kube-prometheus-stack:
+    enabled: false
 
 ## Configuration values for the kafka dependency
 ## ref: https://artifacthub.io/packages/helm/bitnami/kafka

@@ -7,9 +7,9 @@ dependencies:
   version: 5.2.0
 - name: pulsar
   repository: https://pulsar.apache.org/charts
-  version: 2.7.8
+  version: 3.7.0
 - name: kafka
   repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
   version: 15.5.1
-digest: sha256:ac48979646c6a96ec8466ac9ce188b853ad8fbed4b9c339eb70f394f45925454
-generated: "2024-10-10T10:09:51.325164594-07:00"
+digest: sha256:54c82f108bedbf0834998c2d30a38d8de5a9ccfa0be8ec2c0bea89d482b7d17b
+generated: "2024-11-13T17:54:24.16423475-08:00"

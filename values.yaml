@@ -105,6 +105,9 @@ milvus:
     persistence:
       storageClass: ""
   pulsar:
+    defaultPulsarImageRepository: rtamalin/pulsar
+    defaultPulsarImageTag: 3.3.2
+    defaultPullPolicy: IfNotPresent
     bookkeeper:
       volumes:
         journal:
