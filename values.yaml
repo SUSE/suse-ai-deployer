@@ -1,5 +1,7 @@
 # Global section
 global:
+  imagePullSecrets:
+    - application-collection
   tls:
     # options: suse-private-ai, letsEncrypt, secret
     source: suse-private-ai
@@ -87,25 +89,26 @@ open-webui:
 # Note: SUSE does not support heaptrack, attu, pulsar-manager, kafka enablement
 milvus:
   enabled: true
+  image:
+    all:
+      registry: ghcr.io
+      repository: brett060102/milvus
+      tag: 2.4.6
+      pullPolicy: IfNotPresent
   cluster:
     enabled: true
   etcd:
-    global:
-      imagePullSecrets:
-        - application-collection
     persistence:
       storageClassName: ""
   minio:
-    global:
-      imagePullSecrets:
-        - application-collection
     mode: distributed
     rootUser: "minioadmin"
     rootPassword: "minioadmin"
     persistence:
       storageClass: ""
   pulsar:
-    defaultPulsarImageRepository: rtamalin/pulsar
+    defaultPulsarImageRegistry: docker.io
+    defaultPulsarImageRepository: rtamalin/apache-pulsar
     defaultPulsarImageTag: 3.3.2
     defaultPullPolicy: IfNotPresent
     bookkeeper:

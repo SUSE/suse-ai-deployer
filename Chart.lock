@@ -1,9 +1,12 @@
 dependencies:
+- name: milvus
+  repository: ""
+  version: 4.2.2
 - name: ollama
   repository: file://charts/ollama
   version: 0.54.0
 - name: open-webui
   repository: file://charts/open-webui
-  version: 3.1.1
-digest: sha256:5f024c1e170e27ffd7b331bc3e6437e329f30dabe400d7e52aa721faa3a00e46
-generated: "2024-08-05T14:14:42.704555038-07:00"
+  version: 3.3.1
+digest: sha256:21ea04000371a3f58ec96e9d76dc3367992a9b529830babffca820f7b165e73d
+generated: "2024-11-21T05:27:01.0387191-08:00"
