@@ -29,8 +29,7 @@ appVersion: "1.16.0"
 
 dependencies:
 - name: milvus
-  version: 4.2.10
-  repository: file://charts/milvus
+  version: 4.2.2
   tags:
   - suse-private-ai
   - milvus
@@ -42,7 +41,7 @@ dependencies:
   - suse-private-ai
   - ollama
 - name: open-webui
-  version: 3.1.16
+  version: 3.3.1
   repository: file://charts/open-webui
   tags:
   - suse-private-ai
