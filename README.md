@@ -1,4 +1,9 @@
 #### ⚠️ Warning
+
+This repo will not be maintained and will be archived soon. Please refer to the official docs
+to deploy AI components.
+
+#### ⚠️ Warning
 This umbrella chart is used for development/testing of the deployment of the AI stack components.
 
 # SUSE Private AI stack
