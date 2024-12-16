@@ -3,6 +3,8 @@
 This repo will not be maintained and will be archived soon. Please refer to the official docs
 to deploy AI components.
 
+The official documentation with details for how to install via the Applications Collection is available in [the deployment guide](https://documentation.suse.com/suse-ai/1.0/html/AI-deployment-intro/index.html)
+
 #### ⚠️ Warning
 This umbrella chart is used for development/testing of the deployment of the AI stack components.
 
