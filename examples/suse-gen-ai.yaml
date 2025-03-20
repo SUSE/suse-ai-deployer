@@ -1,0 +1,76 @@
+# This is an example overrides yaml enabling deployment of ollama, open-webui, milvus components with longhorn storage. 
+# Please update these overrides as needed for your environment.
+# This is an example of services deployed in suse-private-ai namespace with suse-gen-ai release name.
+
+global:
+  imagePullSecrets:
+  - application-collection
+ollama:
+  #To learn more about the entries, helm show values oci://dp.apps.rancher.io/charts/ollama
+  enabled: True
+  ollama:
+    gpu:
+     enabled: true
+     type: 'nvidia'
+     number: 1
+  persistentVolume:
+    enabled: true
+    storageClass: longhorn
+    size: 20Gi
+open-webui:
+  #To learn more about the entries, helm show values oci://dp.apps.rancher.io/charts/open-webui
+  enabled: True
+  ollamaUrls:
+  - http://suse-gen-ai-ollama.suse-private-ai.svc.cluster.local:11434
+  persistence:
+    enabled: true
+    storageClass: longhorn
+  ollama:
+    enabled: false
+  ingress:
+    host: <OPENWEBUIHOST> 
+  extraEnvVars:
+  - name: DEFAULT_MODELS
+    value: "gemma:2b"
+  - name: DEFAULT_USER_ROLE
+    value: "user"
+  - name: WEBUI_NAME
+    value: "SUSE AI"
+  - name: GLOBAL_LOG_LEVEL
+    value: INFO
+  - name: VECTOR_DB
+    value: "milvus"
+  - name: MILVUS_URI
+    value: http://suse-gen-ai-milvus.suse-private-ai.svc.cluster.local:19530
+milvus:
+  #To learn more about the entries, helm show values oci://dp.apps.rancher.io/charts/milvus
+  enabled: True
+  cluster:
+    enabled: True
+  standalone:
+    persistence:
+      persistentVolumeClaim:
+        storageClass: longhorn
+  etcd:
+    replicaCount: 1
+    persistence:
+      storageClassName: longhorn
+  minio:
+    persistence:
+      storageClass: longhorn
+      size: 20Gi
+    resources:
+      requests:
+        memory: 1024Mi
+  kafka:
+    enabled: true
+    persistence:
+      enabled: true
+      accessModes:
+        - ReadWriteMany
+      resources:
+        requests:
+          storage: 8Gi
+      storageClassName: longhorn-xfs
+pytorch:
+  enabled: False

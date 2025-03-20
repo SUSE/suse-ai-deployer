@@ -1,6 +1,6 @@
 apiVersion: v2
 name: suse-private-ai
-description: A Helm chart for suse-private-ai
+description: A Meta helm chart for SUSE AI components
 home: https://suse.com
 icon: https://ollama.com/public/ollama.png
 keywords:
@@ -29,21 +29,31 @@ appVersion: "1.16.0"
 
 dependencies:
 - name: milvus
+  repository: oci://dp.apps.rancher.io/charts
   version: 4.2.2
   tags:
   - suse-private-ai
   - milvus
   condition: milvus.enabled
 - name: ollama
-  version: 0.54.0
-  repository: file://charts/ollama
+  version: 1.4.0
+  repository: oci://dp.apps.rancher.io/charts
   tags:
   - suse-private-ai
   - ollama
+  condition: ollama.enabled
 - name: open-webui
-  version: 3.3.1
-  repository: file://charts/open-webui
+  version: 5.16.0
+  repository: oci://dp.apps.rancher.io/charts
   tags:
   - suse-private-ai
   - open-webui
+  condition: open-webui.enabled
+- name: pytorch
+  version: 0.1.0
+  repository: oci://dp.apps.rancher.io/charts
+  tags:
+  - suse-private-ai
+  - pytorch
+  condition: pytorch.enabled
 

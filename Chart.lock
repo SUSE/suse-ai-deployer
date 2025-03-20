@@ -1,12 +1,15 @@
 dependencies:
 - name: milvus
-  repository: ""
+  repository: oci://dp.apps.rancher.io/charts
   version: 4.2.2
 - name: ollama
-  repository: file://charts/ollama
-  version: 0.54.0
+  repository: oci://dp.apps.rancher.io/charts
+  version: 1.4.0
 - name: open-webui
-  repository: file://charts/open-webui
-  version: 3.3.1
-digest: sha256:21ea04000371a3f58ec96e9d76dc3367992a9b529830babffca820f7b165e73d
-generated: "2024-11-21T05:27:01.0387191-08:00"
+  repository: oci://dp.apps.rancher.io/charts
+  version: 5.16.0
+- name: pytorch
+  repository: oci://dp.apps.rancher.io/charts
+  version: 0.1.0
+digest: sha256:2bc1228fa175fd35a4beb64416aa9ca429dd8d55c06360ce54d923abc448058a
+generated: "2025-03-19T17:25:12.410996-07:00"
