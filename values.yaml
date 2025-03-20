@@ -21,17 +21,19 @@ global:
 
 # Ollama subchart overrides - see the charts/ollama for additional entries
 ollama:
-  image:
-    registry: ghcr.io
-    repository: brett060102/ollama
-    pullPolicy: IfNotPresent
-    tag: ""
   ingress:
     enabled: false #Disabled - ollama endpoint is internal. Do not enable ingress.
   defaultModel: "gemma:2b"
+  persistentVolume:
+    enabled: true
+    storageClass: ""
+    size: 20Gi
   ollama:
     models:
-    - "gemma:2b"
+      pull:
+        - "gemma:2b"
+      run:
+        - "gemma:2b"
     gpu:
       # -- Enable GPU integration
       enabled: false
@@ -54,17 +56,14 @@ ollama:
 
 # open-webui subchart overrides - see the charts/open-webui for additional entries
 open-webui:
+  persistence:
+    enabled: true
+    size: 8Gi
+    storageClass: ""
   ollama:
     enabled: false #Disabled as we install ollama seperately
-  pipelines:
-    ingress:
-      enabled: false #Disabled - pipeline endpoint is internal
   ollamaUrls:
   - http://suse-private-ai-ollama.suse-private-ai.svc.cluster.local:11434 #Internally accessible ollama endpoint
-  image:
-    repository: ghcr.io/brett060102/open-webui
-    tag: "0.3.32"
-    pullPolicy: "IfNotPresent"
   ingress:
     enabled: true
     class: ""
@@ -80,21 +79,21 @@ open-webui:
     value: "user"
   - name: WEBUI_NAME
     value: "SUSE AI"
+  - name: GLOBAL_LOG_LEVEL
+    value: INFO
+  - name: RAG_EMBEDDING_MODEL
+    value: "sentence-transformers/all-MiniLM-L6-v2"
+  - name: INSTALL_NLTK_DATASETS
+    value: "true"
   - name: VECTOR_DB
     value: "milvus"
   - name: MILVUS_URI
     value: http://suse-private-ai-milvus.suse-private-ai.svc.cluster.local:19530
 
 # milvus subchart overrides - see the charts/milvus for additional entries
-# Note: SUSE does not support heaptrack, attu, pulsar-manager, kafka enablement
+# Note: SUSE does not support heaptrack, attu, pulsar
 milvus:
   enabled: true
-  image:
-    all:
-      registry: ghcr.io
-      repository: brett060102/milvus
-      tag: 2.4.6
-      pullPolicy: IfNotPresent
   cluster:
     enabled: true
   etcd:
@@ -106,27 +105,22 @@ milvus:
     rootPassword: "minioadmin"
     persistence:
       storageClass: ""
-  pulsar:
-    defaultPulsarImageRegistry: docker.io
-    defaultPulsarImageRepository: rtamalin/apache-pulsar
-    defaultPulsarImageTag: 3.3.2
-    defaultPullPolicy: IfNotPresent
-    bookkeeper:
-      volumes:
-        journal:
-          local_storage: false
-          storageClassName: ""
-        ledgers:
-          local_storage: false
-          storageClassName: ""
-        common:
-          local_storage: false
-          storageClassName: ""
-    zookeeper:
-      volumes:
-        data:
-          storageClassName: ""
-    broker:
-      volumes:
-        data:
-          storageClassName: ""
+    replicas: 4
+  kafka:
+    enabled: true
+    persistence:
+      storageClassName: ""
+pytorch:
+  enabled: true
+  gpu:
+    enabled: false
+    type: 'nvidia'
+    number: 1
+    nvidiaResource: "nvidia.com/gpu"
+    mig:
+      enabled: false
+      devices: {}
+  persistence:
+    enabled: false
+    size: 30Gi
+    storageClass: ""

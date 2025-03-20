@@ -1,9 +1,0 @@
-dependencies:
-- name: ollama
-  repository: https://otwld.github.io/ollama-helm/
-  version: 0.59.0
-- name: pipelines
-  repository: https://helm.openwebui.com
-  version: 0.0.4
-digest: sha256:bfba828139ce6280e2fc9020cb933b8760e89ff1bbc66bee443d292af7ac1db1
-generated: "2024-09-22T12:16:31.226566428-06:00"
