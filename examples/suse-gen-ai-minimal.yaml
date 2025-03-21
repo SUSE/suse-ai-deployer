@@ -40,7 +40,6 @@ milvus:
   cluster:
     enabled: false
   standalone:
-    enabled: true
     persistence:
       persistentVolumeClaim:
         storageClass: local-path
