@@ -36,7 +36,7 @@ dependencies:
   - milvus
   condition: milvus.enabled
 - name: ollama
-  version: 1.4.0
+  version: 1.11.0
   repository: oci://dp.apps.rancher.io/charts
   tags:
   - suse-private-ai
