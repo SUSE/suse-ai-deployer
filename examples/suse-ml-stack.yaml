@@ -21,6 +21,7 @@ pytorch:
     mig:
       enabled: false
       devices: {}
+  runtimeClassName: ""
   persistence: 
     enabled: true 
     size: 10Gi

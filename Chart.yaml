@@ -1,10 +1,8 @@
 apiVersion: v2
-name: suse-private-ai
-description: A Meta helm chart for SUSE AI components
-home: https://suse.com
-icon: https://ollama.com/public/ollama.png
+name: suse-ai-deployer
+description: A Meta Helm chart for deploying SUSE AI components
 keywords:
-- ai
+- suse-ai
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -19,41 +17,29 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 0.1.0
+version: 1.0.0
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "1.16.0"
+appVersion: "1.0.0"
 
 dependencies:
 - name: milvus
   repository: oci://dp.apps.rancher.io/charts
   version: 4.2.2
-  tags:
-  - suse-private-ai
-  - milvus
   condition: milvus.enabled
 - name: ollama
-  version: 1.11.0
+  version: 1.16.0
   repository: oci://dp.apps.rancher.io/charts
-  tags:
-  - suse-private-ai
-  - ollama
   condition: ollama.enabled
 - name: open-webui
   version: 5.16.0
   repository: oci://dp.apps.rancher.io/charts
-  tags:
-  - suse-private-ai
-  - open-webui
   condition: open-webui.enabled
 - name: pytorch
-  version: 0.1.0
+  version: 0.2.0
   repository: oci://dp.apps.rancher.io/charts
-  tags:
-  - suse-private-ai
-  - pytorch
   condition: pytorch.enabled
 

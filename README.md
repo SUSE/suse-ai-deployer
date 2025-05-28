@@ -1,43 +1,33 @@
-#### ⚠️ Warning
+# SUSE AI stack
 
-This repo will not be maintained and will be archived soon. Please refer to the official docs
-to deploy AI components.
+SUSE AI stack provides SUSE customers to easily install an industry standard AI stack to run AI workloads using trusted containers with support for GPU hardware acceleration.
 
-The official documentation with details for how to install via the Applications Collection is available in [the deployment guide](https://documentation.suse.com/suse-ai/1.0/html/AI-deployment-intro/index.html)
+## SUSE AI deployer Helm Chart
+This chart is meant to manage the deployment of SUSE AI stack through Helm 3 onto a Kubernetes Cluster.
 
-#### ⚠️ Warning
-This umbrella/meta chart is used for development/testing of the deployment of the AI stack components.
+The open-webui server installed as part of the stack is designed to be secure by default and requires SSL/TLS configuration. The open-webui is exposed through an Ingress. This means the Kubernetes cluster that you install SUSE AI stack in must contain an Ingress controller. The API endpoints for Ollama are not publically accessible since ingress is disabled by default since ollama does not have an authenticated endpoint yet.
 
-# SUSE Private AI stack
+This section outlines the steps to deploy SUSE AI stack on a Kubernetes cluster using the Helm CLI.
 
-SUSE private ai stack provides SUSE customers to easily install an industry standard AI stack to run AI workloads using trusted containers with support for GPU hardware acceleration.
+To set up SUSE AI stack,
 
-## SUSE Private AI stack Helm Chart
-This chart is meant to manage the deployment of SUSE Private AI stack through Helm 3 onto a Kubernetes Cluster.
-
-The open-webui server installed as part of the suse-private-ai stack is designed to be secure by default and requires SSL/TLS configuration. The open-webui is exposed through an Ingress. This means the Kubernetes cluster that you install SUSE Private AI stack in must contain an Ingress controller. The API endpoints for Ollama are not publically accessible since ingress is disabled by default since ollama does not have an authenticated endpoint yet.
-
-This section outlines the steps to deploy suse-private-ai stack on a Kubernetes cluster using the Helm CLI.
-
-To set up SUSE Private AI stack,
-
-1. [Choose your SSL configuration](#2-choose-your-ssl-configuration)
-2. [Install cert-manager](#3-install-cert-manager) (unless you are bringing your own certificates, or TLS will be terminated on a load balancer)
-3. [Ingress Controller](#4-ingress-controller)
-4. [Customization Considerations](#5-customization-considerations)
-5. [Install SUSE Private AI with Helm and your chosen certificate option](#6-install-suse-private-ai-with-helm-and-your-chosen-certificate-option)
-6. [Verify that the components of the suse-private-ai are successfully deployed](#7-verification)
+1. [Choose your SSL configuration](#1-choose-your-ssl-configuration)
+2. [Access to Application Collection Registry](#2-access-to-application-collection-registry)
+3. [Install cert-manager](#3-install-cert-manager) (unless you are bringing your own certificates, or TLS will be terminated on a load balancer)
+4. [Customization Considerations](#4-customization-considerations)
+5. [Install SUSE Private AI with Helm and your chosen certificate option](#5-install-suse-ai-with-helm-and-your-chosen-certificate-option)
+6. [Verify that the components of the suse ai are successfully deployed](#6-verification)
 
 
 ### 1. Choose your SSL Configuration
 
 There are three recommended options for the source of the certificate:
 
-- **Self-Signed (suse-private-ai) TLS certificate:** This is the default option. In this case, you will need to install cert-manager into the cluster. suse-private-ai utilizes cert-manager to issue and maintain its certificates. suse-private-ai will generate a CA certificate of its own, and sign a cert using that CA. cert-manager is then responsible for managing that certificate.
+- **Self-Signed (suse-private-ai) TLS certificate:** This is the default option. In this case, you will need to install cert-manager into the cluster. SUSE AI utilizes cert-manager to issue and maintain its certificates. suse-private-ai will generate a CA certificate of its own, and sign a cert using that CA. cert-manager is then responsible for managing that certificate.
 
 - **Let's Encrypt (letsEncrypt):** The Let's Encrypt option also uses cert-manager. However, in this case, cert-manager is combined with a special Issuer for Let's Encrypt that performs all actions (including request and validation) necessary for getting a Let's Encrypt issued cert. This configuration uses HTTP validation (HTTP-01), so the load balancer must have a public DNS record and be accessible from the internet.
 
-- **Bring your own certificate:** This option allows you to bring your own signed certificate. suse-private-ai will use that certificate to secure HTTPS traffic. In this case, you must upload this certificate (and associated key) as PEM-encoded files with the name tls.crt and tls.key.
+- **Bring your own certificate:** This option allows you to bring your own signed certificate. SUSE AI will use that certificate to secure HTTPS traffic. In this case, you must upload this certificate (and associated key) as PEM-encoded files with the name tls.crt and tls.key.
 
 | Configuration                  | Helm Chart Option           | Requires cert-manager                 |
 | ------------------------------ | ----------------------- | ------------------------------------- |
@@ -48,7 +38,7 @@ There are three recommended options for the source of the certificate:
 
 ### 2. Access to Application Collection Registry
 
-Before installing suse-private-ai stack, a K8s secret resource containing the private registry credentials to the application collection suse registry has to be created in the namespace ```suse-private-ai```
+Before installing SUSE AI stack, a K8s secret resource containing the private registry credentials to the application collection suse registry has to be created in the namespace ```suse-private-ai```
 Please substitute your application collection user email and token in the command below.
 
 ```bash
@@ -72,7 +62,7 @@ helm install \
   cert-manager oci://dp.apps.rancher.io/charts/cert-manager \
   --namespace cert-manager \
   --create-namespace \
-  --version 1.17.1  \
+  --version 1.17.2  \
   --set crds.enabled=true \
   --set global.imagePullSecrets={application-collection}
 ```
@@ -88,54 +78,21 @@ cert-manager-cainjector-7cfc74b84b-kg7m2    1/1     Running   0          3m
 cert-manager-webhook-784f6dd68-69dvn        1/1     Running   0          3m
 ```
 
+### 4. Install SUSE AI with Helm
 
-### 4. Ingress Controller - Optional
+To deploy the SUSE AI stack using helm using the charts in this source repo,
 
-Skip this step if using RKE2
-
-The only component of the suse-private-ai stack that is exposed through an ingress is the open-webui endpoint. It is exposed through an Ingress to be able to access it from outside the cluster. This means the Kubernetes cluster that you install suse-private-ai in must contain an Ingress controller.
-
-For K8s distributions that do not include an Ingress Controller by default you have to deploy an Ingress controller first. Note that the suse-private-ai helm chart `open-webui.ingress.class` does not set an ingressClassName on the ingress by default. Because of this, by default, you have to configure the Ingress controller to also watch ingresses without an ingressClassName.
-
-NGINX is a popular ingress controller and can be chosen and to make sure that you choose the correct ingress-nginx helm chart version, first find an ingress-nginx version that's compatible with your kubernetes version in [kubernetes/ingress-nginx support table](https://github.com/kubernetes/ingress-nginx#supported-versions-table).
-
-Then, list the helm charts available to you by running the following command:
-```bash
-helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
-helm repo update
-helm search repo ingress-nginx -l
-```
-
-The helm search command's output contains an APP VERSION column. The versions under this column are equivalent to the ingress-nginx version you chose earlier. Using the app version, select a chart version that bundles an app compatible with your Kubernetes install. For example, if you have Kubernetes v1.30, you can select the 4.11.1 Helm chart, since ingress-nginx v1.11.1 comes bundled with that chart, and v1.11.1 is compatible with Kubernetes v1.30. When in doubt, select the most recent compatible version.
-
-Now that you know which Helm chart version you need, run the following command. It installs an nginx-ingress-controller with a Kubernetes load balancer service:
+Depending on the TLS configuration and your *other* customization needs like storage, you can create a custom-overrides.yaml file and deploy. The SUSE Private AI chart configuration has many options for customizing the installation to suit your specific environment. Please refer to some of the examples overrides in the examples directory. Use the appropriate <RELEASE_NAME> based on your custom overrides.
 
 ```bash
 helm upgrade --install \
-  ingress-nginx ingress-nginx/ingress-nginx \
-  --namespace ingress-nginx \
-  --set controller.service.type=LoadBalancer \
-  --version 4.11.1 \
-  --create-namespace
-```
-
-
-### 5. Install SUSE Private AI with Helm
-
-To deploy the suse private ai stack using helm using the charts in this source repo,
-
-Depending on the TLS configuration and your *other* customization needs like storage, you can create a custom-overrides.yaml file and deploy. The SUSE Private AI chart configuration has many options for customizing the installation to suit your specific environment. Please refer to some of the examples overrides in the examples directory.
-
-```bash
-helm upgrade --install \
-  suse-private-ai  . \
+  <RELEASE_NAME> . \
   --namespace suse-private-ai \
   --create-namespace \
   --values ./custom-overrides.yaml
 ```
 
-
-### 6. Verify that the components of the suse-private-ai are successfully deployed
+### 5. Verify that the components of the suse-private-ai are successfully deployed
 
 ```bash
 kubectl get all -n suse-private-ai
