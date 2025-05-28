@@ -1,4 +1,4 @@
-# This is an example overrides yaml enabling deployment of ollama, open-webui, milvus components with longhorn storage. 
+# This is an example overrides yaml enabling deployment of ollama with GPU enabled, open-webui, milvus components with longhorn storage. 
 # Please update these overrides as needed for your environment.
 # This is an example of services deployed in suse-private-ai namespace with suse-gen-ai release name.
 
@@ -13,6 +13,7 @@ ollama:
      enabled: true
      type: 'nvidia'
      number: 1
+  runtimeClassName: "nvidia"
   persistentVolume:
     enabled: true
     storageClass: longhorn
@@ -27,6 +28,9 @@ open-webui:
     storageClass: longhorn
   ollama:
     enabled: false
+  pipelines:
+    enabled: false
+    extraEnvVars: []
   ingress:
     host: <OPENWEBUIHOST> 
   extraEnvVars:

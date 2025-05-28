@@ -4,12 +4,12 @@ dependencies:
   version: 4.2.2
 - name: ollama
   repository: oci://dp.apps.rancher.io/charts
-  version: 1.11.0
+  version: 1.16.0
 - name: open-webui
   repository: oci://dp.apps.rancher.io/charts
   version: 5.16.0
 - name: pytorch
   repository: oci://dp.apps.rancher.io/charts
-  version: 0.1.0
-digest: sha256:cdc53c2c5a2919daa3bd9bc9f0fb9e54e538c5dad8f05134b9c4a1084724dbe8
-generated: "2025-04-28T16:53:20.591930659-07:00"
+  version: 0.2.0
+digest: sha256:186c7cc4cc614b695a3ea75fc5aa5c3256fdf15d31becb978e27a957ab0307d6
+generated: "2025-05-28T11:42:16.162314929-07:00"

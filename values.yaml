@@ -1,3 +1,4 @@
+# Services deployed in suse-private-ai namespace with suse-private-ai release name.
 # Global section
 global:
   imagePullSecrets:
@@ -22,7 +23,7 @@ global:
 # Ollama subchart overrides - see the charts/ollama for additional entries
 ollama:
   ingress:
-    enabled: false #Disabled - ollama endpoint is internal. Do not enable ingress.
+    enabled: false #Disabled - ollama endpoint is internal.
   defaultModel: "gemma:2b"
   persistentVolume:
     enabled: true
@@ -53,6 +54,7 @@ ollama:
       # nvidiaResource: "nvidia.com/mig-1g.10gb" # example
       # If you want to use more than one NVIDIA MIG you can use the following syntax (then nvidiaResource is ignored and only the configuration in the following MIG section is used)
       #
+  runtimeClassName: ""
 
 # open-webui subchart overrides - see the charts/open-webui for additional entries
 open-webui:
@@ -62,6 +64,9 @@ open-webui:
     storageClass: ""
   ollama:
     enabled: false #Disabled as we install ollama seperately
+  pipelines:
+    enabled: false
+    extraEnvVars: []
   ollamaUrls:
   - http://suse-private-ai-ollama.suse-private-ai.svc.cluster.local:11434 #Internally accessible ollama endpoint
   ingress:
@@ -120,7 +125,9 @@ pytorch:
     mig:
       enabled: false
       devices: {}
+  runtimeClassName: ""
   persistence:
     enabled: false
     size: 30Gi
     storageClass: ""
+

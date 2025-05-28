@@ -20,6 +20,9 @@ open-webui:
     storageClass: local-path
   ollama:
     enabled: false
+  pipelines:
+    enabled: false
+    extraEnvVars: []
   ingress:
     host: suse-ollama-webui 
   extraEnvVars:
