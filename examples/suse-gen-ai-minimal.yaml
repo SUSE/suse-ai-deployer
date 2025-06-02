@@ -24,7 +24,7 @@ open-webui:
     enabled: false
     extraEnvVars: []
   ingress:
-    host: suse-ollama-webui 
+    host: ""
   extraEnvVars:
   - name: DEFAULT_MODELS
     value: "gemma:2b"

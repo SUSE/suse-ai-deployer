@@ -7,9 +7,9 @@ dependencies:
   version: 1.16.0
 - name: open-webui
   repository: oci://dp.apps.rancher.io/charts
-  version: 5.16.0
+  version: 6.13.0
 - name: pytorch
   repository: oci://dp.apps.rancher.io/charts
   version: 0.2.0
-digest: sha256:186c7cc4cc614b695a3ea75fc5aa5c3256fdf15d31becb978e27a957ab0307d6
-generated: "2025-05-28T11:42:16.162314929-07:00"
+digest: sha256:6e3028f6025d8393f63b3a4f2e475a50da7a7d865faebb6b0dd8c2ac9517f344
+generated: "2025-06-02T07:49:52.539407024-07:00"

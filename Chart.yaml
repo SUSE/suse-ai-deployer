@@ -2,7 +2,7 @@ apiVersion: v2
 name: suse-ai-deployer
 description: A Meta Helm chart for deploying SUSE AI components
 keywords:
-- suse-ai
+  - suse-ai
 
 # A chart can be either an 'application' or a 'library' chart.
 #
@@ -26,20 +26,20 @@ version: 1.0.0
 appVersion: "1.0.0"
 
 dependencies:
-- name: milvus
-  repository: oci://dp.apps.rancher.io/charts
-  version: 4.2.2
-  condition: milvus.enabled
-- name: ollama
-  version: 1.16.0
-  repository: oci://dp.apps.rancher.io/charts
-  condition: ollama.enabled
-- name: open-webui
-  version: 5.16.0
-  repository: oci://dp.apps.rancher.io/charts
-  condition: open-webui.enabled
-- name: pytorch
-  version: 0.2.0
-  repository: oci://dp.apps.rancher.io/charts
-  condition: pytorch.enabled
+  - name: milvus
+    repository: oci://dp.apps.rancher.io/charts
+    version: 4.2.2
+    condition: milvus.enabled
+  - name: ollama
+    version: 1.16.0
+    repository: oci://dp.apps.rancher.io/charts
+    condition: ollama.enabled
+  - name: open-webui
+    version: 6.13.0
+    repository: oci://dp.apps.rancher.io/charts
+    condition: open-webui.enabled
+  - name: pytorch
+    version: 0.2.0
+    repository: oci://dp.apps.rancher.io/charts
+    condition: pytorch.enabled
 
