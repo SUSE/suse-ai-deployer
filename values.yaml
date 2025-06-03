@@ -24,17 +24,14 @@ global:
 ollama:
   ingress:
     enabled: false #Disabled - ollama endpoint is internal.
-  defaultModel: "gemma:2b"
   persistentVolume:
-    enabled: true
+    enabled: false
     storageClass: ""
-    size: 20Gi
+    size: 30Gi
   ollama:
     models:
-      pull:
-        - "gemma:2b"
-      run:
-        - "gemma:2b"
+      pull: []
+      run: []
     gpu:
       # -- Enable GPU integration
       enabled: false
@@ -60,7 +57,7 @@ ollama:
 open-webui:
   persistence:
     enabled: true
-    size: 8Gi
+    size: 2Gi
     storageClass: ""
   ollama:
     enabled: false #Disabled as we install ollama seperately
@@ -74,31 +71,19 @@ open-webui:
     class: ""
     annotations:
       nginx.ingress.kubernetes.io/ssl-redirect: "true"
-    host: suse-ollama-webui
+    host: ""
     tls: true
     existingSecret: suse-private-ai-tls
   extraEnvVars:
-  - name: DEFAULT_MODELS
-    value: "gemma:2b"
-  - name: DEFAULT_USER_ROLE
-    value: "user"
-  - name: WEBUI_NAME
-    value: "SUSE AI"
-  - name: GLOBAL_LOG_LEVEL
-    value: INFO
-  - name: RAG_EMBEDDING_MODEL
-    value: "sentence-transformers/all-MiniLM-L6-v2"
-  - name: INSTALL_NLTK_DATASETS
-    value: "true"
-  - name: VECTOR_DB
-    value: "milvus"
-  - name: MILVUS_URI
-    value: http://suse-private-ai-milvus.suse-private-ai.svc.cluster.local:19530
+    - name: OPENAI_API_KEY
+      value: "0p3n-w3bu!"
+    - name: WEBUI_NAME
+      value: "SUSE AI"
 
 # milvus subchart overrides - see the charts/milvus for additional entries
 # Note: SUSE does not support heaptrack, attu, pulsar
 milvus:
-  enabled: true
+  enabled: false
   cluster:
     enabled: true
   etcd:
@@ -116,7 +101,7 @@ milvus:
     persistence:
       storageClassName: ""
 pytorch:
-  enabled: true
+  enabled: false
   gpu:
     enabled: false
     type: 'nvidia'
