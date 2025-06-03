@@ -1,6 +1,7 @@
-# This is an example overrides yaml enabling deployment of pytorch with longhorn storage. 
+# This is an example overrides yaml:
+# - enabling deployment of pytorch with no GPU enablement.
+# - longhorn storage.
 # Please update these overrides as needed for your environment.
-
 global:
   imagePullSecrets:
   - application-collection
