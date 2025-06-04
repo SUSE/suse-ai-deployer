@@ -1,3 +1,18 @@
+# SPDX-License-Identifier: APACHE-2.0
+#!BuildTag: charts/suse-ai-deployer:1.0.0-%RELEASE%
+#!BuildTag: charts/suse-ai-deployer:1.0.0
+annotations:
+  helm.sh/images: |
+    - image: dp.apps.rancher.io/containers/milvus:2.4.6
+      name: milvus
+    - image: dp.apps.rancher.io/containers/ollama:0.6.8
+      name: ollama
+    - image: dp.apps.rancher.io/containers/bci-busybox:15.5
+      name: bci-busybox
+    - image: ${CONATINER_REGISTRY}/containers/open-webui:0.6.9
+      name: open-webui
+    - image: dp.apps.rancher.io/containers/pytorch:2.7.0-nvidia
+      name: pytorch
 apiVersion: v2
 name: suse-ai-deployer
 description: A Meta Helm chart for deploying SUSE AI components
@@ -42,4 +57,9 @@ dependencies:
     version: 0.2.0
     repository: oci://dp.apps.rancher.io/charts
     condition: pytorch.enabled
+home: https://apps.rancher.io/applications/suse-ai-deployer
+icon: https://apps.rancher.io/logos/suse-ai-deployer.png
+maintainers:
+  - url: https://www.suse.com/
+    name: SUSE LLC
 
