@@ -9,7 +9,7 @@ annotations:
       name: ollama
     - image: dp.apps.rancher.io/containers/bci-busybox:15.5
       name: bci-busybox
-    - image: ${CONATINER_REGISTRY}/containers/open-webui:0.6.9
+    - image: dp.apps.rancher.io/containers/open-webui:0.6.9
       name: open-webui
     - image: dp.apps.rancher.io/containers/pytorch:2.7.0-nvidia
       name: pytorch
@@ -17,7 +17,7 @@ apiVersion: v2
 name: suse-ai-deployer
 description: A Meta Helm chart for deploying SUSE AI components
 keywords:
-  - suse-ai
+  - ai
 
 # A chart can be either an 'application' or a 'library' chart.
 #
