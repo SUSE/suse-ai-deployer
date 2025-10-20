@@ -1,6 +1,6 @@
 # This is an example overrides yaml:
-# - enabling deployment of ollama with GPU.
-# - enabling deployment of open-webui.
+# - enabling deployment of vllm with GPU with a basic configuration.
+# - enabling deployment of open-webui along with pipelines.
 # - enabling deployment of milvus in cluster mode.
 # - services deployed with suse-gen-ai release name in suse-private-ai namespace.
 # - longhorn storage.
@@ -11,27 +11,10 @@ global:
   - application-collection
 ollama:
   #To learn more about the entries, helm show values oci://dp.apps.rancher.io/charts/ollama
-  enabled: true
-  ollama:
-    models:
-      pull:
-      - "gemma:2b"
-      run:
-      - "gemma:2b"
-    gpu:
-     enabled: true
-     type: 'nvidia'
-     number: 1
-  runtimeClassName: "nvidia"
-  persistentVolume:
-    enabled: true
-    storageClass: longhorn
-    size: 30Gi
+  enabled: false
 open-webui:
   #To learn more about the entries, helm show values oci://dp.apps.rancher.io/charts/open-webui
   enabled: true
-  ollamaUrls:
-  - http://suse-gen-ai-ollama.suse-private-ai.svc.cluster.local:11434
   persistence:
     enabled: true
     size: 20Gi
@@ -39,17 +22,17 @@ open-webui:
   ollama:
     enabled: false
   pipelines:
-    enabled: false
-    extraEnvVars: []
+    enabled: true
+    persistence:
+      storageClass: longhorn
+    extraEnvVars:
+    - name: PIPELINES_URLS
+      value: "https://raw.githubusercontent.com/SUSE/suse-ai-observability-extension/refs/heads/main/integrations/oi-filter/conversation_turn_limit_filter.py"
   ingress:
     host: suse-ollama-webui
   extraEnvVars:
-  - name: DEFAULT_MODELS
-    value: "gemma:2b"
   - name: DEFAULT_USER_ROLE
     value: "user"
-  - name: WEBUI_NAME
-    value: "SUSE AI"
   - name: ENABLE_SIGNUP
     value: "true"
   - name: GLOBAL_LOG_LEVEL
@@ -62,6 +45,10 @@ open-webui:
     value: http://suse-gen-ai-milvus.suse-private-ai.svc.cluster.local:19530
   - name: INSTALL_NLTK_DATASETS
     value: "true"
+  - name: OPENAI_API_BASE_URLS
+    value: "http://open-webui-pipelines.suse-private-ai.svc.cluster.local:9099;http://suse-gen-ai-router-service.suse-private-ai.svc.cluster.local:80/v1"
+  - name: OPENAI_API_KEYS
+    value: "0p3n-w3bu!;dummy"
 milvus:
   #To learn more about the entries, helm show values oci://dp.apps.rancher.io/charts/milvus
   enabled: true
@@ -86,4 +73,18 @@ milvus:
 pytorch:
   enabled: false
 vllm:
-  enabled: false
+  #To learn more about the entries, helm show values oci://dp.apps.rancher.io/charts/vllm
+  enabled: true
+  servingEngineSpec:
+    modelSpec:
+    - name: "phi3-mini-4k"
+      registry: "dp.apps.rancher.io"
+      repository: "containers/vllm-openai"
+      tag: "0.9.1"
+      imagePullPolicy: "IfNotPresent"
+      modelURL: "microsoft/Phi-3-mini-4k-instruct"
+      replicaCount: 1
+      requestCPU: 6
+      requestMemory: "16Gi"
+      requestGPU: 1
+

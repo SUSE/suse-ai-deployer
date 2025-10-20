@@ -1,18 +1,24 @@
 # SPDX-License-Identifier: APACHE-2.0
-#!BuildTag: charts/suse-ai-deployer:1.0.0-%RELEASE%
-#!BuildTag: charts/suse-ai-deployer:1.0.0
+#!BuildTag: charts/suse-ai-deployer:1.0.1-%RELEASE%
+#!BuildTag: charts/suse-ai-deployer:1.0.1
 annotations:
   helm.sh/images: |
     - image: dp.apps.rancher.io/containers/milvus:2.4.6
       name: milvus
-    - image: dp.apps.rancher.io/containers/ollama:0.6.8
+    - image: dp.apps.rancher.io/containers/ollama:0.11.4
       name: ollama
     - image: dp.apps.rancher.io/containers/bci-busybox:15.5
       name: bci-busybox
-    - image: dp.apps.rancher.io/containers/open-webui:0.6.9
+    - image: dp.apps.rancher.io/containers/open-webui:0.6.18
       name: open-webui
     - image: dp.apps.rancher.io/containers/pytorch:2.7.0-nvidia
       name: pytorch
+    - image: dp.apps.rancher.io/containers/vllm-openai:0.9.1
+      name: vllm-openai
+    - image: dp.apps.rancher.io/containers/lmcache-vllm-openai:0.3.2
+      name: lmcache-vllm-openai
+    - image: dp.apps.rancher.io/containers/lmcache-lmstack-router:0.1.6
+      name: lmcache-lmstack-router
 apiVersion: v2
 name: suse-ai-deployer
 description: A Meta Helm chart for deploying SUSE AI components
@@ -32,13 +38,13 @@ type: application
 # This is the chart version. This version number should be incremented each time you make changes
 # to the chart and its templates, including the app version.
 # Versions are expected to follow Semantic Versioning (https://semver.org/)
-version: 1.0.0
+version: 1.0.1
 
 # This is the version number of the application being deployed. This version number should be
 # incremented each time you make changes to the application. Versions are not expected to
 # follow Semantic Versioning. They should reflect the version the application is using.
 # It is recommended to use it with quotes.
-appVersion: "1.0.0"
+appVersion: "1.0.1"
 
 dependencies:
   - name: milvus
@@ -46,17 +52,21 @@ dependencies:
     version: 4.2.2
     condition: milvus.enabled
   - name: ollama
-    version: 1.16.0
+    version: 1.26.0
     repository: oci://dp.apps.rancher.io/charts
     condition: ollama.enabled
   - name: open-webui
-    version: 6.13.0
+    version: 7.2.0
     repository: oci://dp.apps.rancher.io/charts
     condition: open-webui.enabled
   - name: pytorch
     version: 0.2.0
     repository: oci://dp.apps.rancher.io/charts
     condition: pytorch.enabled
+  - name: vllm
+    version: 0.1.6
+    repository: oci://dp.apps.rancher.io/charts
+    condition: vllm.enabled
 home: https://apps.rancher.io/applications/suse-ai-deployer
 icon: https://apps.rancher.io/logos/suse-ai-deployer.png
 maintainers:

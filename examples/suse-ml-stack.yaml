@@ -32,4 +32,6 @@ pytorch:
     repository: ""
     revision: ""
     secretName: ""
-  configMapExtFiles: ""  
+  configMapExtFiles: ""
+vllm:
+  enabled: false

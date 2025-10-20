@@ -115,4 +115,5 @@ pytorch:
     enabled: false
     size: 30Gi
     storageClass: ""
-
+vllm:
+  enabled: false
