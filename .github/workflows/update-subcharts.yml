@@ -1,0 +1,150 @@
+name: Update meta-chart
+
+on:
+  schedule:
+    - cron: "0 2 * * *" # daily at 2 AM UTC
+  workflow_dispatch:
+    inputs:
+      git_user_name:
+        description: 'Git user name'
+        required: true
+        default: 'github-actions[bot]'
+      git_user_email:
+        description: 'Git user email'
+        required: true
+        default: 'github-actions[bot]@users.noreply.github.com'
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read
+
+jobs:
+  update-subcharts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install Act dependencies
+        if: ${{ env.ACT }}
+        run: |
+          apt-get update && apt-get install sudo gh -y
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update && sudo apt-get install curl ca-certificates tar gzip git bash build-essential gh -y
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Needed for rebasing
+          persist-credentials: true
+
+      - name: Set up Helm
+        uses: azure/setup-helm@v3
+
+      - name: Install updatecli
+        run: |
+          mkdir -p $HOME/.local/bin
+          curl -sSL https://github.com/updatecli/updatecli/releases/latest/download/updatecli_Linux_x86_64.tar.gz -o updatecli.tar.gz
+          tar -xzf updatecli.tar.gz -C $HOME/.local/bin updatecli
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Configure Git identity
+        run: |
+          git config --global user.name "${{ github.event.inputs.git_user_name || 'github-actions[bot]' }}"
+          git config --global user.email "${{ github.event.inputs.git_user_email || 'github-actions[bot]@users.noreply.github.com' }}"
+          git config --global pull.rebase false
+
+      - name: Authenticate Git
+        run: |
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
+
+      - name: Create and switch to update branch
+        run: |
+          BRANCH="update-subcharts-$(date +%Y%m%d%H%M%S)"
+          git checkout -b "$BRANCH"
+          echo "branch_name=$BRANCH" >> $GITHUB_ENV
+
+      - name: Run updatecli
+        run: |
+          helm registry login ${{ secrets.APPCO_REGISTRY }} -u ${{ secrets.APPCO_USER }} -p ${{ secrets.APPCO_TOKEN }}
+          updatecli apply --config update.yml
+
+      - name: Run helm dependency update
+        run: |
+          helm registry login ${{ secrets.APPCO_REGISTRY }} -u ${{ secrets.APPCO_USER }} -p ${{ secrets.APPCO_TOKEN }}
+          helm dependency update
+
+      - name: Lint Helm Chart
+        run: |
+          helm lint .
+
+      - name: Commit Changes
+        run: |
+
+          # Stage Chart.yaml only if there are real differences
+          if ! git diff --quiet Chart.yaml; then
+            git add Chart.yaml
+          fi
+
+          # Stage Chart.lock
+          git add Chart.lock
+
+          # Stage added or modified .tgz files in charts/
+          find charts -name "*.tgz" -type f -print0 | xargs -0 git add
+
+          git ls-files -d *.tgz | xargs -r git rm
+
+          rm updatecli.tar.gz
+
+          # Optional: debug info before commit
+          git status
+          git diff
+
+          # Commit if there are changes
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "chore: update subchart versions"
+          else
+            echo "No changes to commit"
+          fi
+
+          # Optional: debug info after commit
+          git status
+          git diff
+
+      - name: Rebase with main and push if changes exist
+        id: push_branch
+        run: |
+          git fetch origin main
+          git rebase origin/main || git rebase --abort
+
+          if git diff --quiet origin/main...HEAD; then
+            echo "No changes compared to main, skipping push."
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "Changes detected, pushing branch ${{ env.branch_name }}"
+            git push --force-with-lease origin ${{ env.branch_name }}
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Close old update-subcharts PRs
+        if: steps.push_branch.outputs.changes == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # List open PRs from branches starting with update-subcharts
+          for pr in $(gh pr list --state open --json number,headRefName --jq '.[] | select(.headRefName | startswith("auto-update-subcharts")) | .number'); do
+            echo "Closing PR #$pr"
+            gh pr close $pr --comment "Closing old PR as a new update branch has been created."
+          done
+
+      - name: Create Pull Request
+        if: steps.push_branch.outputs.changes == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ env.branch_name }}
+          base: main
+          title: "chore: update subchart versions"
+          body: |
+            Automated PR to update subchart dependencies.
+            Generated by GitHub Actions workflow.
+          labels: "auto-update-subcharts"
