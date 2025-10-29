@@ -1,0 +1,58 @@
+sources:
+  milvus-source:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/milvus | yq -r '.version'
+  ollama-source:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/ollama | yq -r '.version'
+  open-webui-source:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/open-webui | yq -r '.version'
+  pytorch-source:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/pytorch | yq -r '.version'
+  vllm-source:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/vllm | yq -r '.version'
+targets:
+  # Ensure the index of the key corresponds to the order of dependencies in Chart.yaml
+  update-milvus:
+    kind: yaml
+    sourceid: milvus-source
+    spec:
+      file: ./Chart.yaml
+      key: $.dependencies[0].version
+  update-ollama:
+    kind: yaml
+    sourceid: ollama-source
+    spec:
+      file: ./Chart.yaml
+      key: $.dependencies[1].version
+  update-open-webui:
+    kind: yaml
+    sourceid: open-webui-source
+    spec:
+      file: ./Chart.yaml
+      key: $.dependencies[2].version
+  update-pytorch:
+    kind: yaml
+    sourceid: pytorch-source
+    spec:
+      file: ./Chart.yaml
+      key: $.dependencies[3].version
+  update-vllm:
+    kind: yaml
+    sourceid: vllm-source
+    spec:
+      file: ./Chart.yaml
+      key: $.dependencies[4].version
