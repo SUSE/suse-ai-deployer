@@ -54,6 +54,8 @@ jobs:
           git config --global pull.rebase false
 
       - name: Authenticate Git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
@@ -128,7 +130,7 @@ jobs:
       - name: Close old update-subcharts PRs
         if: steps.push_branch.outputs.changes == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # List open PRs from branches starting with update-subcharts
           for pr in $(gh pr list --state open --json number,headRefName --jq '.[] | select(.headRefName | startswith("auto-update-subcharts")) | .number'); do
