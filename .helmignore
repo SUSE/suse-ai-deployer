@@ -4,6 +4,7 @@
 .DS_Store
 # Common VCS dirs
 .git/
+.github/
 .gitignore
 .bzr/
 .bzrignore
@@ -20,5 +21,7 @@
 .project
 .idea/
 *.tmproj
+fleet.yaml
+update.yml
 OWNERS
 
