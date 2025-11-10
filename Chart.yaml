@@ -7,18 +7,15 @@ annotations:
       name: milvus
     - image: dp.apps.rancher.io/containers/ollama:0.11.4
       name: ollama
-    - image: dp.apps.rancher.io/containers/bci-busybox:15.5
-      name: bci-busybox
     - image: dp.apps.rancher.io/containers/open-webui:0.6.18
       name: open-webui
-    - image: dp.apps.rancher.io/containers/pytorch:2.7.0-nvidia
+    - image: dp.apps.rancher.io/containers/pytorch:2.8.0-nvidia
       name: pytorch
     - image: dp.apps.rancher.io/containers/vllm-openai:0.9.1
       name: vllm-openai
-    - image: dp.apps.rancher.io/containers/lmcache-vllm-openai:0.3.2
-      name: lmcache-vllm-openai
-    - image: dp.apps.rancher.io/containers/lmcache-lmstack-router:0.1.6
-      name: lmcache-lmstack-router
+    - image: dp.apps.rancher.io/containers/open-webui-mcpo:0.0.17
+      name: open-webui-mcpo
+  license: APACHE-2.0
 apiVersion: v2
 name: suse-ai-deployer
 description: A Meta Helm chart for deploying SUSE AI components
@@ -60,13 +57,17 @@ dependencies:
     repository: oci://dp.apps.rancher.io/charts
     condition: open-webui.enabled
   - name: pytorch
-    version: 0.2.0
+    version: 0.3.0
     repository: oci://dp.apps.rancher.io/charts
     condition: pytorch.enabled
   - name: vllm
     version: 0.1.6
     repository: oci://dp.apps.rancher.io/charts
     condition: vllm.enabled
+  - name: open-webui-mcpo
+    version: 1.0.0
+    repository: oci://dp.apps.rancher.io/charts
+    condition: open-webui-mcpo.enabled
 home: https://apps.rancher.io/applications/suse-ai-deployer
 icon: https://apps.rancher.io/logos/suse-ai-deployer.png
 maintainers:

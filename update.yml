@@ -1,58 +1,106 @@
 sources:
-  milvus-source:
+  # Get the chart version of the sub-charts published in application-collection
+  # chart version
+  milvus-chart-version:
     kind: shell
     spec:
       command: |
         helm show chart oci://dp.apps.rancher.io/charts/milvus | yq -r '.version'
-  ollama-source:
+  ollama-chart-version:
     kind: shell
     spec:
       command: |
         helm show chart oci://dp.apps.rancher.io/charts/ollama | yq -r '.version'
-  open-webui-source:
+  open-webui-chart-version:
     kind: shell
     spec:
       command: |
         helm show chart oci://dp.apps.rancher.io/charts/open-webui | yq -r '.version'
-  pytorch-source:
+  pytorch-chart-version:
     kind: shell
     spec:
       command: |
         helm show chart oci://dp.apps.rancher.io/charts/pytorch | yq -r '.version'
-  vllm-source:
+  vllm-chart-version:
     kind: shell
     spec:
       command: |
         helm show chart oci://dp.apps.rancher.io/charts/vllm | yq -r '.version'
+  open-webui-mcpo-chart-version:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/open-webui-mcpo | yq -r '.version'
+
+  # Get the app version of the sub-charts published in application-collection
+  # app version
+  milvus-app-version:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/milvus | yq -r '.appVersion'
+  ollama-app-version:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/ollama | yq -r '.appVersion'
+  open-webui-app-version:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/open-webui | yq -r '.appVersion'
+  pytorch-app-version:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/pytorch | yq -r '.appVersion'
+  vllm-app-version:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/vllm | yq -r '.appVersion'
+  open-webui-mcpo-app-version:
+    kind: shell
+    spec:
+      command: |
+        helm show chart oci://dp.apps.rancher.io/charts/open-webui-mcpo | yq -r '.appVersion'
+
+
 targets:
   # Ensure the index of the key corresponds to the order of dependencies in Chart.yaml
-  update-milvus:
+  update-chart-milvus:
     kind: yaml
-    sourceid: milvus-source
+    sourceid: milvus-chart-version
     spec:
       file: ./Chart.yaml
       key: $.dependencies[0].version
-  update-ollama:
+  update-chart-ollama:
     kind: yaml
-    sourceid: ollama-source
+    sourceid: ollama-chart-version
     spec:
       file: ./Chart.yaml
       key: $.dependencies[1].version
-  update-open-webui:
+  update-chart-open-webui:
     kind: yaml
-    sourceid: open-webui-source
+    sourceid: open-webui-chart-version
     spec:
       file: ./Chart.yaml
       key: $.dependencies[2].version
-  update-pytorch:
+  update-chart-pytorch:
     kind: yaml
-    sourceid: pytorch-source
+    sourceid: pytorch-chart-version
     spec:
       file: ./Chart.yaml
       key: $.dependencies[3].version
-  update-vllm:
+  update-chart-vllm:
     kind: yaml
-    sourceid: vllm-source
+    sourceid: vllm-chart-version
     spec:
       file: ./Chart.yaml
       key: $.dependencies[4].version
+  update-chart-open-webui-mcpo:
+    kind: yaml
+    sourceid: open-webui-mcpo-chart-version
+    spec:
+      file: ./Chart.yaml
+      key: $.dependencies[5].version

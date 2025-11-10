@@ -100,6 +100,7 @@ milvus:
     enabled: true
     persistence:
       storageClassName: ""
+# pytorch subchart overrides - see the charts/pytorch for additional entries
 pytorch:
   enabled: false
   gpu:
@@ -115,5 +116,9 @@ pytorch:
     enabled: false
     size: 30Gi
     storageClass: ""
+# vllm subchart overrides - see the charts/vllm for additional entries
 vllm:
+  enabled: false
+# open-webui-mcpo subchart overrides - see the charts/open-webui-mcpo for additional entries
+open-webui-mcpo:
   enabled: false

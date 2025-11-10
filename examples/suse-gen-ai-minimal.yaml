@@ -1,5 +1,6 @@
 # This is an example overrides yaml:
 # - enabling deployment of ollama with no GPU.
+# - enabling deployment of mcpo.
 # - enabling deployment of open-webui.
 # - enabling deployment of milvus in standalone mode.
 # - services deployed with suse-gen-ai release name in suse-private-ai namespace.
@@ -20,6 +21,16 @@ ollama:
   persistentVolume:
     enabled: true
     storageClass: local-path
+open-webui-mcpo:
+  #To learn more about the entries, helm show values oci://dp.apps.rancher.io/charts/open-webui-mcpo
+  enabled: true
+  config:
+    mcpServers:
+      memory:
+        command: npx
+        args:
+          - -y
+          - "@modelcontextprotocol/server-memory"
 open-webui:
   #To learn more about the entries, helm show values oci://dp.apps.rancher.io/charts/open-webui
   enabled: true
@@ -41,8 +52,6 @@ open-webui:
     value: "gemma:2b"
   - name: DEFAULT_USER_ROLE
     value: "user"
-  - name: WEBUI_NAME
-    value: "SUSE AI"
   - name: ENABLE_SIGNUP
     value: "true"
   - name: GLOBAL_LOG_LEVEL
