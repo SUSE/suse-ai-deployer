@@ -104,3 +104,51 @@ targets:
     spec:
       file: ./Chart.yaml
       key: $.dependencies[5].version
+
+  update-image-annotation-milvus:
+    sourceid: milvus-app-version
+    kind: file
+    spec:
+      file: ./Chart.yaml
+      matchpattern: "milvus:.*"
+      replacepattern: 'milvus:{{ source "milvus-app-version" }}'
+
+  update-image-annotation-ollama:
+    sourceid: ollama-app-version
+    kind: file
+    spec:
+      file: ./Chart.yaml
+      matchpattern: "ollama:.*"
+      replacepattern: 'ollama:{{ source "ollama-app-version" }}'
+
+  update-image-annotation-open-webui:
+    sourceid: open-webui-app-version
+    kind: file
+    spec:
+      file: ./Chart.yaml
+      matchpattern: "open-webui:.*"
+      replacepattern: 'open-webui:{{ source "open-webui-app-version" }}'
+
+  update-image-annotation-pytorch:
+    sourceid: pytorch-app-version
+    kind: file
+    spec:
+      file: ./Chart.yaml
+      matchpattern: "pytorch:.*"
+      replacepattern: 'pytorch:{{ source "pytorch-app-version" }}'
+
+  update-image-annotation-vllm:
+    sourceid: vllm-app-version
+    kind: file
+    spec:
+      file: ./Chart.yaml
+      matchpattern: "vllm-openai:.*"
+      replacepattern: 'vllm-openai:{{ source "vllm-app-version" }}'
+
+  update-image-annotation-open-webui-mcpo:
+    sourceid: open-webui-mcpo-app-version
+    kind: file
+    spec:
+      file: ./Chart.yaml
+      matchpattern: "open-webui-mcpo:.*"
+      replacepattern: 'open-webui-mcpo:{{ source "open-webui-mcpo-app-version" }}'

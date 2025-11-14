@@ -70,7 +70,7 @@ jobs:
       - name: Run updatecli
         run: |
           helm registry login ${{ secrets.APPCO_REGISTRY }} -u ${{ secrets.APPCO_USER }} -p ${{ secrets.APPCO_TOKEN }}
-          updatecli apply --config update.yml
+          updatecli apply --config .updatecli/update.yml
 
       - name: Run helm dependency update
         run: |
