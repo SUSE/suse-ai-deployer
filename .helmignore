@@ -22,6 +22,6 @@
 .idea/
 *.tmproj
 fleet.yaml
-update.yml
+.updatecli/update.yml
 OWNERS
 
