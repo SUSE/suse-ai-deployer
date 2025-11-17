@@ -15,7 +15,7 @@ annotations:
       name: vllm-openai
     - image: dp.apps.rancher.io/containers/open-webui-mcpo:0.0.17
       name: open-webui-mcpo
-  license: APACHE-2.0
+  license: Apache-2.0
 apiVersion: v2
 name: suse-ai-deployer
 description: A Meta Helm chart for deploying SUSE AI components
