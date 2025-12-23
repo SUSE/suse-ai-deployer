@@ -5,9 +5,9 @@ annotations:
   helm.sh/images: |
     - image: dp.apps.rancher.io/containers/milvus:2.4.6
       name: milvus
-    - image: dp.apps.rancher.io/containers/ollama:0.11.4
+    - image: dp.apps.rancher.io/containers/ollama:0.12.9
       name: ollama
-    - image: dp.apps.rancher.io/containers/open-webui:0.6.18
+    - image: dp.apps.rancher.io/containers/open-webui:0.6.41
       name: open-webui
     - image: dp.apps.rancher.io/containers/pytorch:2.8.0-nvidia
       name: pytorch
@@ -49,11 +49,11 @@ dependencies:
     version: 4.2.2
     condition: milvus.enabled
   - name: ollama
-    version: 1.26.0
+    version: 1.33.0
     repository: oci://dp.apps.rancher.io/charts
     condition: ollama.enabled
   - name: open-webui
-    version: 7.2.0
+    version: 8.19.0
     repository: oci://dp.apps.rancher.io/charts
     condition: open-webui.enabled
   - name: pytorch
