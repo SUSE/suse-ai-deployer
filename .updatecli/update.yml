@@ -135,7 +135,7 @@ targets:
     spec:
       file: ./Chart.yaml
       matchpattern: "pytorch:.*"
-      replacepattern: 'pytorch:{{ source "pytorch-app-version" }}'
+      replacepattern: 'pytorch:{{ source "pytorch-app-version" }}-nvidia'
 
   update-image-annotation-vllm:
     sourceid: vllm-app-version
