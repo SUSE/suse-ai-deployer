@@ -3,7 +3,7 @@
 #!BuildTag: charts/suse-ai-deployer:1.1.0
 annotations:
   helm.sh/images: |
-    - image: dp.apps.rancher.io/containers/milvus:2.4.6
+    - image: dp.apps.rancher.io/containers/milvus:2.6.9
       name: milvus
     - image: dp.apps.rancher.io/containers/ollama:0.12.9
       name: ollama
@@ -46,7 +46,7 @@ appVersion: "1.1.0"
 dependencies:
   - name: milvus
     repository: oci://dp.apps.rancher.io/charts
-    version: 4.2.2
+    version: 5.0.12
     condition: milvus.enabled
   - name: ollama
     version: 1.33.0
