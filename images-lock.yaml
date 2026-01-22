@@ -1,7 +1,7 @@
 apiVersion: v0
 kind: ImagesLock
 metadata:
-  generatedAt: "2026-01-22T02:14:59.940353675Z"
+  generatedAt: "2026-01-22T18:56:26.451003324Z"
   generatedBy: SUSE LLC
 chart:
   name: suse-ai-deployer
@@ -81,15 +81,15 @@ images:
       - digest: sha256:d39d0bc0732c55c8b04c48f72d573fcd5f6ce7450b129ede3a1175e3269271cb
         arch: linux/arm64
   - name: bci-busybox
-    image: dp.apps.rancher.io/containers/bci-busybox:15.5
+    image: dp.apps.rancher.io/containers/bci-busybox:15.7-17.1
     chart: ollama
     digests:
-      - digest: sha256:fefa048a316b651bceaf5f0ada20654ff25b9c7bbe16ca7ba9c3ae685413f318
+      - digest: sha256:d6bf605b5e6670e9f0b02e076ecd5a20e12a84b833d17b529f2e938c2a2a5b6f
         arch: linux/amd64
-      - digest: sha256:975498878c6de60fcf46181ffa26bb4e5c29575ace2c39d58bf92d7f7c953a34
+      - digest: sha256:d89280ac21df2efbba71347bba20c282657bbd1b49281ba238ec6e22535593a4
         arch: linux/arm64
   - name: ollama
-    image: dp.apps.rancher.io/containers/ollama:0.12.9
+    image: dp.apps.rancher.io/containers/ollama:0.12.9-10.101
     chart: ollama
     digests:
       - digest: sha256:318226ddfdfaa4fbf5a7355a4548bcf542dfee26e3e7ea8bd6dc3ed3b61f4f4a
@@ -97,15 +97,23 @@ images:
       - digest: sha256:c526a72a51bbb67ac1a86a2ee3eb27623b34664965513247e85db373452cefaf
         arch: linux/arm64
   - name: open-webui
-    image: dp.apps.rancher.io/containers/open-webui:0.6.41
+    image: dp.apps.rancher.io/containers/open-webui:0.6.41-13.9
     chart: open-webui
     digests:
       - digest: sha256:ab7d4d748d149c8f35b217c1053c17e3f9ee25d1df8c00f8db13eeb6a76753a9
         arch: linux/amd64
       - digest: sha256:142a4a03a0c78f0fe3ce5767841e7851aab0696f530c57a65041f4bf461c7836
         arch: linux/arm64
+  - name: redis
+    image: dp.apps.rancher.io/containers/redis:8.0.5-5.14
+    chart: open-webui
+    digests:
+      - digest: sha256:fce173f2fda00d8521cd9acfb5155b483f2a4d8d31569284f8f9634e02fee780
+        arch: linux/amd64
+      - digest: sha256:2e2a8eed819734a54a065e4e3d012647a97f413a8766c673457e91eefe5183d2
+        arch: linux/arm64
   - name: open-webui-mcpo
-    image: dp.apps.rancher.io/containers/open-webui-mcpo:0.0.17
+    image: dp.apps.rancher.io/containers/open-webui-mcpo:0.0.17-1.22
     chart: open-webui-mcpo
     digests:
       - digest: sha256:e6c5ec2d09405b7753ecdb9ff1a4c3c7f7c1ad4b3ddfefd0172db4fe06fb585b
@@ -113,7 +121,7 @@ images:
       - digest: sha256:99f77fc98af1b40a9c473572aab76549e501b682938cfdb56c61d8190d110b82
         arch: linux/arm64
   - name: open-webui-pipelines
-    image: dp.apps.rancher.io/containers/open-webui-pipelines:0.20250819.030501
+    image: dp.apps.rancher.io/containers/open-webui-pipelines:0.20250819.030501-7.26
     chart: open-webui-pipelines
     digests:
       - digest: sha256:c774006dff3a0b7ade7fdcc9a6feb905c14a1f3f075aea051e3103fa2ef5b296
@@ -121,7 +129,7 @@ images:
       - digest: sha256:0ffff939f6e29d9be9252a03e4a07ea704debda62e4007ba833f3b8054ee1f70
         arch: linux/arm64
   - name: pytorch
-    image: dp.apps.rancher.io/containers/pytorch:2.8.0-nvidia
+    image: dp.apps.rancher.io/containers/pytorch:2.8.0-nvidia-3.28
     chart: pytorch
     digests:
       - digest: sha256:a0b71e9f9172b6eb5cfc8fc8f4fe6e307c8a1500cf4b1c823049a04ffbb5e824
@@ -177,15 +185,15 @@ images:
       - digest: sha256:5f3c9b00db381a1db6f8ac847aedc24e683201aed1069a472b970d3c9798c804
         arch: linux/arm64
   - name: bci-busybox
-    image: dp.apps.rancher.io/containers/bci-busybox:15.6
+    image: dp.apps.rancher.io/containers/bci-busybox:15.7-17.1
     chart: vllm
     digests:
-      - digest: sha256:479013c277a38ee6c9b2a880b63c407337f7aef5ab8d1a22489b45f361c9ea8b
+      - digest: sha256:d6bf605b5e6670e9f0b02e076ecd5a20e12a84b833d17b529f2e938c2a2a5b6f
         arch: linux/amd64
-      - digest: sha256:793e321d68503b6c41ffee3f1e17bf6f7466a437f88403c9df904b669d600c9a
+      - digest: sha256:d89280ac21df2efbba71347bba20c282657bbd1b49281ba238ec6e22535593a4
         arch: linux/arm64
   - name: lmcache-lmstack-router
-    image: dp.apps.rancher.io/containers/lmcache-lmstack-router:0.1.6
+    image: dp.apps.rancher.io/containers/lmcache-lmstack-router:0.1.6-2.33
     chart: vllm
     digests:
       - digest: sha256:490871eeef91b3bab9e81c9eabc496495bbb5066a98d9d646050dfc7b1486bac
@@ -193,7 +201,7 @@ images:
       - digest: sha256:a124534975d1c3e3d282e13a71f73823365e02a01fd2796955be5ae1651ba30b
         arch: linux/arm64
   - name: lmcache-vllm-openai
-    image: dp.apps.rancher.io/containers/lmcache-vllm-openai:0.3.2
+    image: dp.apps.rancher.io/containers/lmcache-vllm-openai:0.3.2-2.3
     chart: vllm
     digests:
       - digest: sha256:ee71fc3b8e4a24a2ca9c8436d5fdd9f7e8d8886504d282db56d97d79e5d360c9
@@ -201,7 +209,7 @@ images:
       - digest: sha256:7e88e838c3c25fdc78f0a91423195308b96d4f32ebd3a4a6b5ec504d7934395e
         arch: linux/arm64
   - name: vllm-openai
-    image: dp.apps.rancher.io/containers/vllm-openai:0.9.1
+    image: dp.apps.rancher.io/containers/vllm-openai:0.9.1-3.40
     chart: vllm
     digests:
       - digest: sha256:96bbc6883ccdb1af02da3e179f1b9d63034480d073ea95d18400757bda430194
