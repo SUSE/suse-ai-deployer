@@ -1,7 +1,7 @@
 apiVersion: v0
 kind: ImagesLock
 metadata:
-  generatedAt: "2026-01-22T18:56:26.451003324Z"
+  generatedAt: "2026-02-05T19:50:13.650325514Z"
   generatedBy: SUSE LLC
 chart:
   name: suse-ai-deployer
@@ -128,7 +128,7 @@ images:
         arch: linux/amd64
       - digest: sha256:0ffff939f6e29d9be9252a03e4a07ea704debda62e4007ba833f3b8054ee1f70
         arch: linux/arm64
-  - name: pytorch
+  - name: pytorch-nvidia
     image: dp.apps.rancher.io/containers/pytorch:2.8.0-nvidia-3.28
     chart: pytorch
     digests:

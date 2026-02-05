@@ -49,15 +49,15 @@ dependencies:
     version: 5.0.12
     condition: milvus.enabled
   - name: ollama
-    version: 1.33.0
+    version: 1.33.1
     repository: oci://dp.apps.rancher.io/charts
     condition: ollama.enabled
   - name: open-webui
-    version: 8.19.0
+    version: 8.19.1
     repository: oci://dp.apps.rancher.io/charts
     condition: open-webui.enabled
   - name: pytorch
-    version: 0.3.0
+    version: 0.3.1
     repository: oci://dp.apps.rancher.io/charts
     condition: pytorch.enabled
   - name: vllm
@@ -65,7 +65,7 @@ dependencies:
     repository: oci://dp.apps.rancher.io/charts
     condition: vllm.enabled
   - name: open-webui-mcpo
-    version: 1.0.0
+    version: 1.0.1
     repository: oci://dp.apps.rancher.io/charts
     condition: open-webui-mcpo.enabled
 home: https://apps.rancher.io/applications/suse-ai-deployer
