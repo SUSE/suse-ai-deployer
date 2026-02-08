@@ -3,17 +3,17 @@
 #!BuildTag: charts/suse-ai-deployer:1.2.0
 annotations:
   helm.sh/images: |
-    - image: dp.apps.rancher.io/containers/milvus:2.6.9-1.4
+    - image: dp.apps.rancher.io/containers/milvus:2.6.10
       name: milvus
-    - image: dp.apps.rancher.io/containers/ollama:0.12.9-10.101
+    - image: dp.apps.rancher.io/containers/ollama:0.12.9
       name: ollama
-    - image: dp.apps.rancher.io/containers/open-webui:0.6.41-13.9
+    - image: dp.apps.rancher.io/containers/open-webui:0.6.41
       name: open-webui
-    - image: dp.apps.rancher.io/containers/pytorch:2.8.0-nvidia-3.28
+    - image: dp.apps.rancher.io/containers/pytorch:2.8.0-nvidia
       name: pytorch
-    - image: dp.apps.rancher.io/containers/vllm-openai:0.9.1-3.40
+    - image: dp.apps.rancher.io/containers/vllm-openai:0.9.1
       name: vllm-openai
-    - image: dp.apps.rancher.io/containers/open-webui-mcpo:0.0.17-1.22
+    - image: dp.apps.rancher.io/containers/open-webui-mcpo:0.0.17
       name: open-webui-mcpo
   license: Apache-2.0
 apiVersion: v2
@@ -46,7 +46,7 @@ appVersion: "1.2.0"
 dependencies:
   - name: milvus
     repository: oci://dp.apps.rancher.io/charts
-    version: 5.0.12
+    version: 5.0.13
     condition: milvus.enabled
   - name: ollama
     version: 1.33.1
