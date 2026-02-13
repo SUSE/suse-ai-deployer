@@ -65,6 +65,39 @@ sources:
       command: |
         helm show chart oci://dp.apps.rancher.io/charts/open-webui-mcpo | yq -r '.appVersion'
 
+  # Get the image tag with revision
+  milvus-image-tag-rev:
+    kind: shell
+    spec:
+      command: |
+        helm show values oci://dp.apps.rancher.io/charts/milvus | yq -r '.image.all.tag'
+  ollama-image-tag-rev:
+    kind: shell
+    spec:
+      command: |
+        helm show values oci://dp.apps.rancher.io/charts/ollama | yq -r '.image.tag'
+  open-webui-image-tag-rev:
+    kind: shell
+    spec:
+      command: |
+        helm show values oci://dp.apps.rancher.io/charts/open-webui | yq -r '.image.tag'
+  pytorch-image-tag-rev:
+    kind: shell
+    spec:
+      command: |
+        helm show values oci://dp.apps.rancher.io/charts/pytorch | yq -r '.image.tag'
+  vllm-openai-image-tag-rev:
+    kind: shell
+    spec:
+      command: |
+        vllmopenai_appversion=$(helm show chart oci://dp.apps.rancher.io/charts/vllm | yq -r '.appVersion')
+        crane ls dp.apps.rancher.io/containers/vllm-openai | grep "$vllmopenai_appversion" | sort -V | tail -n 1
+
+  open-webui-mcpo-image-tag-rev:
+    kind: shell
+    spec:
+      command: |
+        helm show values oci://dp.apps.rancher.io/charts/open-webui-mcpo | yq -r '.image.tag'
 
 targets:
   # Ensure the index of the key corresponds to the order of dependencies in Chart.yaml
@@ -106,49 +139,49 @@ targets:
       key: $.dependencies[5].version
 
   update-image-annotation-milvus:
-    sourceid: milvus-app-version
+    sourceid: milvus-image-tag-rev
     kind: file
     spec:
       file: ./Chart.yaml
       matchpattern: "milvus:.*"
-      replacepattern: 'milvus:{{ source "milvus-app-version" }}'
+      replacepattern: 'milvus:{{ source "milvus-image-tag-rev" }}'
 
   update-image-annotation-ollama:
-    sourceid: ollama-app-version
+    sourceid: ollama-image-tag-rev
     kind: file
     spec:
       file: ./Chart.yaml
       matchpattern: "ollama:.*"
-      replacepattern: 'ollama:{{ source "ollama-app-version" }}'
+      replacepattern: 'ollama:{{ source "ollama-image-tag-rev" }}'
 
   update-image-annotation-open-webui:
-    sourceid: open-webui-app-version
+    sourceid: open-webui-image-tag-rev
     kind: file
     spec:
       file: ./Chart.yaml
       matchpattern: "open-webui:.*"
-      replacepattern: 'open-webui:{{ source "open-webui-app-version" }}'
+      replacepattern: 'open-webui:{{ source "open-webui-image-tag-rev" }}'
 
   update-image-annotation-pytorch:
-    sourceid: pytorch-app-version
+    sourceid: pytorch-image-tag-rev
     kind: file
     spec:
       file: ./Chart.yaml
       matchpattern: "pytorch:.*"
-      replacepattern: 'pytorch:{{ source "pytorch-app-version" }}-nvidia'
+      replacepattern: 'pytorch:{{ source "pytorch-image-tag-rev" }}'
 
   update-image-annotation-vllm:
-    sourceid: vllm-app-version
+    sourceid: vllm-openai-image-tag-rev
     kind: file
     spec:
       file: ./Chart.yaml
       matchpattern: "vllm-openai:.*"
-      replacepattern: 'vllm-openai:{{ source "vllm-app-version" }}'
+      replacepattern: 'vllm-openai:{{ source "vllm-openai-image-tag-rev" }}'
 
   update-image-annotation-open-webui-mcpo:
-    sourceid: open-webui-mcpo-app-version
+    sourceid: open-webui-mcpo-image-tag-rev
     kind: file
     spec:
       file: ./Chart.yaml
       matchpattern: "open-webui-mcpo:.*"
-      replacepattern: 'open-webui-mcpo:{{ source "open-webui-mcpo-app-version" }}'
+      replacepattern: 'open-webui-mcpo:{{ source "open-webui-mcpo-image-tag-rev" }}'
