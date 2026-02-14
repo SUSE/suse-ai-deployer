@@ -2,19 +2,6 @@
 #!BuildTag: charts/suse-ai-deployer:1.2.0-%RELEASE%
 #!BuildTag: charts/suse-ai-deployer:1.2.0
 annotations:
-  helm.sh/images: |
-    - image: dp.apps.rancher.io/containers/milvus:2.6.10-1.7
-      name: milvus
-    - image: dp.apps.rancher.io/containers/ollama:0.12.9-11.15
-      name: ollama
-    - image: dp.apps.rancher.io/containers/open-webui:0.6.41-14.20
-      name: open-webui
-    - image: dp.apps.rancher.io/containers/pytorch:2.9.1-nvidia-1.18
-      name: pytorch
-    - image: dp.apps.rancher.io/containers/vllm-openai:0.9.1-4.20
-      name: vllm-openai
-    - image: dp.apps.rancher.io/containers/open-webui-mcpo:0.0.17-2.18
-      name: open-webui-mcpo
   license: Apache-2.0
 apiVersion: v2
 name: suse-ai-deployer
