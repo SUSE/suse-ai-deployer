@@ -1,7 +1,7 @@
 apiVersion: v0
 kind: ImagesLock
 metadata:
-  generatedAt: "2026-02-14T00:16:52.023896239Z"
+  generatedAt: "2026-02-14T04:23:31.72661618Z"
   generatedBy: SUSE LLC
 chart:
   name: suse-ai-deployer
@@ -135,54 +135,6 @@ images:
       - digest: sha256:3390216f6cdbf887b0f149b8a8f7bfb43e310e76fd8fcc6b941431a24a7e5602
         arch: linux/amd64
       - digest: sha256:4e19ce14aad17cca0d8bd347decdc54713ab11b08330793044798eff0bd23858
-        arch: linux/arm64
-  - name: milvus
-    image: dp.apps.rancher.io/containers/milvus:2.6.10-1.7
-    chart: suse-ai-deployer
-    digests:
-      - digest: sha256:8bbed3da42174053c74ff335c9be0fd09940739070d0993882a85c84be064b84
-        arch: linux/amd64
-      - digest: sha256:81c131211665078431af934626d83208f2c8b8381f00fdf283a0b1570b89a153
-        arch: linux/arm64
-  - name: ollama
-    image: dp.apps.rancher.io/containers/ollama:0.12.9-11.15
-    chart: suse-ai-deployer
-    digests:
-      - digest: sha256:7c18bdb1f372cd91a3726e4f10588c881d2fdb3cdb8297ea6ce874aaa2cdb110
-        arch: linux/amd64
-      - digest: sha256:d7ec9a475d6f5ee2972c9cdd1b7c8645063fa17d9b6780fabce8dc8e8f439801
-        arch: linux/arm64
-  - name: open-webui
-    image: dp.apps.rancher.io/containers/open-webui:0.6.41-14.20
-    chart: suse-ai-deployer
-    digests:
-      - digest: sha256:fcda30f63d70c5fc50d26bf09927fb4829eceab0c19675ed92863d5b27995eea
-        arch: linux/amd64
-      - digest: sha256:f3660dca5fb941ab00ed4fe209a623a8cffd59580c6349021cce38b24904f5ce
-        arch: linux/arm64
-  - name: open-webui-mcpo
-    image: dp.apps.rancher.io/containers/open-webui-mcpo:0.0.17-2.18
-    chart: suse-ai-deployer
-    digests:
-      - digest: sha256:0b72afc4d8bab97584b6a76302e1fb0fac0afa233a718e8ee81d31b278b7b343
-        arch: linux/amd64
-      - digest: sha256:50d388a8dd0e2978a900312a62896273ced3fd451f1795b8b60a5445a8aad8d5
-        arch: linux/arm64
-  - name: pytorch
-    image: dp.apps.rancher.io/containers/pytorch:2.9.1-nvidia-1.18
-    chart: suse-ai-deployer
-    digests:
-      - digest: sha256:3390216f6cdbf887b0f149b8a8f7bfb43e310e76fd8fcc6b941431a24a7e5602
-        arch: linux/amd64
-      - digest: sha256:4e19ce14aad17cca0d8bd347decdc54713ab11b08330793044798eff0bd23858
-        arch: linux/arm64
-  - name: vllm-openai
-    image: dp.apps.rancher.io/containers/vllm-openai:0.9.1-4.20
-    chart: suse-ai-deployer
-    digests:
-      - digest: sha256:45ec50b214406ab2ca77aa35c1e7f613738c198fb7c1fcbf3d5b9661d4ea3c02
-        arch: linux/amd64
-      - digest: sha256:c1fa06ae655978ea2161f8dc940156e7291ef3daacdc2d82a104c0cb680c0904
         arch: linux/arm64
   - name: bci-busybox
     image: dp.apps.rancher.io/containers/bci-busybox:15.7-19.10
