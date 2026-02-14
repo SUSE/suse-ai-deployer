@@ -23,6 +23,8 @@ concurrency:
 jobs:
   update-subcharts:
     runs-on: ubuntu-latest
+    env:
+      HOME: /home/runner
     steps:
       - name: Install Act dependencies
         if: ${{ env.ACT }}
@@ -47,9 +49,10 @@ jobs:
       - name: Install updatecli
         run: |
           mkdir -p $HOME/.local/bin
-          curl -sSL https://github.com/updatecli/updatecli/releases/latest/download/updatecli_Linux_x86_64.tar.gz -o updatecli.tar.gz
+          curl -sSL https://github.com/updatecli/updatecli/releases/download/v0.113.0/updatecli_Linux_x86_64.tar.gz -o updatecli.tar.gz
           tar -xzf updatecli.tar.gz -C $HOME/.local/bin updatecli
           echo "$HOME/.local/bin" >> $GITHUB_PATH
+          rm updatecli.tar.gz
 
       - name: Configure Git identity
         run: |
@@ -62,15 +65,50 @@ jobs:
         run: |
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
-      - name: Run updatecli
+      - name: Install Crane
+        run: |
+          tmpdir="$(mktemp -d)"
+          curl -sSL https://github.com/google/go-containerregistry/releases/download/v0.20.2/go-containerregistry_Linux_x86_64.tar.gz \
+            | tar -xz -C "$tmpdir"
+          chmod +x "$tmpdir/crane"
+          sudo mv "$tmpdir/crane" /usr/local/bin/
+
+      - name: Helm login to AppCo registry
         run: |
           helm registry login ${{ secrets.APPCO_REGISTRY }} -u ${{ secrets.APPCO_USER }} -p ${{ secrets.APPCO_TOKEN }}
+
+      - name: Crane login to AppCo registry
+        run: |
+          crane auth login  ${{ secrets.APPCO_REGISTRY }} -u "${{ secrets.APPCO_USER }}" -p "${{ secrets.APPCO_TOKEN  }}"
+
+      - name: Run updatecli
+        run: |
           updatecli apply --config .updatecli/update.yml
 
       - name: Run helm dependency update
         run: |
-          helm registry login ${{ secrets.APPCO_REGISTRY }} -u ${{ secrets.APPCO_USER }} -p ${{ secrets.APPCO_TOKEN }}
           helm dependency update
+
+      - name: Install helm-dt plugin
+        run: |
+          helm plugin install https://github.com/vmware-labs/distribution-tooling-for-helm
+
+      - name: Verify dt
+        run: |
+          helm plugin list
+          helm dt version
+
+      - name: Create images-lock.yaml
+        run: |
+          helm dt images lock . --annotations-key helm.sh/images --output-file images-lock.yaml
+
+      - name: Update metadata images-lock.yaml
+        run: |
+          yq --inplace '.metadata.generatedBy="SUSE LLC", .images |= sort_by(.chart, .name)' images-lock.yaml
+
+      - name: Keep amd64 and arm64 references in images-lock.yaml
+        run: |
+          yq --inplace '.images[].digests |= del(.[] | select(.arch != "linux/amd64" and .arch != "linux/arm64"))' images-lock.yaml
 
       - name: Lint Helm Chart
         run: |
