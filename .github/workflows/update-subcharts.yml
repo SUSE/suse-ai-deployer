@@ -36,13 +36,13 @@ jobs:
           sudo apt-get update && sudo apt-get install curl ca-certificates tar gzip git bash build-essential gh -y
 
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           fetch-depth: 0  # Required for PR creation and full history
           persist-credentials: false # since we explicitly authenticate in a later step
 
       - name: Set up Helm
-        uses: azure/setup-helm@v4
+        uses: azure/setup-helm@1a275c3b69536ee54be43f2070a358922e12c8d4 # v4
         with:
           version: v3.15.4
 
@@ -156,7 +156,7 @@ jobs:
           git status
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@c5a7806660adbe173f04e3e038b0ccdcd758773c # v6
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           #branch: auto-update-subcharts
