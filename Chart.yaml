@@ -33,10 +33,10 @@ appVersion: "1.2.0"
 dependencies:
   - name: milvus
     repository: oci://dp.apps.rancher.io/charts
-    version: 5.0.13
+    version: 5.0.22
     condition: milvus.enabled
   - name: ollama
-    version: 1.33.2
+    version: 1.55.0
     repository: oci://dp.apps.rancher.io/charts
     condition: ollama.enabled
   - name: open-webui
@@ -48,7 +48,7 @@ dependencies:
     repository: oci://dp.apps.rancher.io/charts
     condition: pytorch.enabled
   - name: vllm
-    version: 0.1.6
+    version: 0.1.10
     repository: oci://dp.apps.rancher.io/charts
     condition: vllm.enabled
   - name: open-webui-mcpo
