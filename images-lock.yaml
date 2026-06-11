@@ -1,12 +1,12 @@
 apiVersion: v0
 kind: ImagesLock
 metadata:
-  generatedAt: "2026-06-11T18:12:05.577014432Z"
+  generatedAt: "2026-06-11T18:20:19.284905421Z"
   generatedBy: SUSE LLC
 chart:
   name: suse-ai-deployer
-  version: 1.2.0
-  appVersion: 1.2.0
+  version: 1.2.1
+  appVersion: 1.2.1
 images:
   - name: apache-kafka
     image: dp.apps.rancher.io/containers/apache-kafka:4.1.2-8.1
