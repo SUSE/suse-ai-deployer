@@ -1,7 +1,7 @@
 apiVersion: v0
 kind: ImagesLock
 metadata:
-  generatedAt: "2026-06-11T18:20:19.284905421Z"
+  generatedAt: "2026-06-15T03:10:24.046013615Z"
   generatedBy: SUSE LLC
 chart:
   name: suse-ai-deployer
@@ -17,12 +17,12 @@ images:
       - digest: sha256:c61f71566f9957a40bbf353c495ff8821473ebb8a0d82fc21c08753a7edff3df
         arch: linux/arm64
   - name: bci-busybox
-    image: dp.apps.rancher.io/containers/bci-busybox:15.7-21.20
+    image: dp.apps.rancher.io/containers/bci-busybox:15.7-22.1
     chart: apache-kafka
     digests:
-      - digest: sha256:fdf9ce2ba8c6b788b9e688ac5ae5b7d8eeefc41bcfb07784353670d5142b5533
+      - digest: sha256:870e5152cb4c38fd849d8072054798bb54f8ac3c1c4fe30bce7ddb662f134352
         arch: linux/amd64
-      - digest: sha256:c64d2c1f5e7e1e683a97aa230f14cd95ed28964a44b18ccc6feda6c688549328
+      - digest: sha256:7754a1458b9175bf7a38f284e9aced5e398e702778af3bc6b4515939896712d8
         arch: linux/arm64
   - name: apache-tika
     image: dp.apps.rancher.io/containers/apache-tika:3.2.2-7.8
@@ -33,12 +33,12 @@ images:
       - digest: sha256:c07beef975d0d58611427ed25cc5b6e5a4c0318f9016a2f88eb60e2a8c7b9bfe
         arch: linux/arm64
   - name: bci-busybox
-    image: dp.apps.rancher.io/containers/bci-busybox:15.7-21.20
+    image: dp.apps.rancher.io/containers/bci-busybox:15.7-22.1
     chart: etcd
     digests:
-      - digest: sha256:fdf9ce2ba8c6b788b9e688ac5ae5b7d8eeefc41bcfb07784353670d5142b5533
+      - digest: sha256:870e5152cb4c38fd849d8072054798bb54f8ac3c1c4fe30bce7ddb662f134352
         arch: linux/amd64
-      - digest: sha256:c64d2c1f5e7e1e683a97aa230f14cd95ed28964a44b18ccc6feda6c688549328
+      - digest: sha256:7754a1458b9175bf7a38f284e9aced5e398e702778af3bc6b4515939896712d8
         arch: linux/arm64
   - name: etcd
     image: dp.apps.rancher.io/containers/etcd:3.6.12-11.1
@@ -57,12 +57,12 @@ images:
       - digest: sha256:0c8e895725e3c1155eccc8a33e6d1ad78f2c1e5ed987a720fa02ea5b9d69ea8d
         arch: linux/arm64
   - name: milvus
-    image: dp.apps.rancher.io/containers/milvus:2.6.18-8.2
+    image: dp.apps.rancher.io/containers/milvus:2.6.18-8.3
     chart: milvus
     digests:
-      - digest: sha256:58a3de1f2056e4f27bab36b4873c5e786b2b039a41d4b723d9e07e8404d6b6f4
+      - digest: sha256:f3657045389f5198af8226872450ad1a61f605d7f201e433665686a00ded71e2
         arch: linux/amd64
-      - digest: sha256:e7c105846a884f6f274e6d78ba434fb8a56bbb71d020fc6d65127eee57b96960
+      - digest: sha256:dba8e2473940bfa206946d17117fb3331e7765fdf990c5673503ab6f34daeea9
         arch: linux/arm64
   - name: mc
     image: dp.apps.rancher.io/containers/mc:0.20250813.083541-14.1
