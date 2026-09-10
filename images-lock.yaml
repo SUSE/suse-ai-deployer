@@ -1,28 +1,28 @@
 apiVersion: v0
 kind: ImagesLock
 metadata:
-  generatedAt: "2026-09-11T02:11:59.258733392Z"
+  generatedAt: "2026-09-11T17:05:34.158373379Z"
   generatedBy: SUSE LLC
 chart:
   name: suse-ai-deployer
-  version: 1.2.2
-  appVersion: 1.2.2
+  version: 1.2.3
+  appVersion: 1.2.3
 images:
   - name: apache-kafka
-    image: dp.apps.rancher.io/containers/apache-kafka:4.3.1-4.15
+    image: dp.apps.rancher.io/containers/apache-kafka:4.3.1-4.17
     chart: apache-kafka
     digests:
-      - digest: sha256:3de247ba3ac06db2b634e789fb11a9b1bf075f702f415cfec2028c43f6d3ca5a
+      - digest: sha256:663f376b057fe35e33941b31d83233a9a2e7b964203cb5d8b87fe6ebe0af1de8
         arch: linux/amd64
-      - digest: sha256:2d67e4a37086ef87cb27ad9edbb1df3b4ab030b77576d9404ec47a22398d0221
+      - digest: sha256:d05bd708e2af1ac27152cd5baf9c0d97c2fd276c82d0f0d392623a1329652f0d
         arch: linux/arm64
   - name: bci-busybox
-    image: dp.apps.rancher.io/containers/bci-busybox:15.7-25.19
+    image: dp.apps.rancher.io/containers/bci-busybox:15.7-25.25
     chart: apache-kafka
     digests:
-      - digest: sha256:c4208f221a8d5c7dd665c7a6784bad24e501e054ea6150fa6a4ba1b5de588d78
+      - digest: sha256:34a5ab774c34cd0578327af0e431ab3a46ada6582cbe9f0277489691115145f2
         arch: linux/amd64
-      - digest: sha256:353aa098d11d862c643aef3a9a5d1c5edf8dc3b783195a148f2d0799c5ace8d4
+      - digest: sha256:52aa2be4db9645bb1194e527b1bfdfcda639a2c91d15151c166b35bc5bcf0737
         arch: linux/arm64
   - name: apache-tika
     image: dp.apps.rancher.io/containers/apache-tika:3.2.2-7.8
@@ -33,12 +33,12 @@ images:
       - digest: sha256:c07beef975d0d58611427ed25cc5b6e5a4c0318f9016a2f88eb60e2a8c7b9bfe
         arch: linux/arm64
   - name: bci-busybox
-    image: dp.apps.rancher.io/containers/bci-busybox:15.7-25.19
+    image: dp.apps.rancher.io/containers/bci-busybox:15.7-25.25
     chart: etcd
     digests:
-      - digest: sha256:c4208f221a8d5c7dd665c7a6784bad24e501e054ea6150fa6a4ba1b5de588d78
+      - digest: sha256:34a5ab774c34cd0578327af0e431ab3a46ada6582cbe9f0277489691115145f2
         arch: linux/amd64
-      - digest: sha256:353aa098d11d862c643aef3a9a5d1c5edf8dc3b783195a148f2d0799c5ace8d4
+      - digest: sha256:52aa2be4db9645bb1194e527b1bfdfcda639a2c91d15151c166b35bc5bcf0737
         arch: linux/arm64
   - name: etcd
     image: dp.apps.rancher.io/containers/etcd:3.7.1-1.8
