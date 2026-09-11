@@ -55,6 +55,9 @@ milvus:
     persistence:
       storageClassName: longhorn
   minio:
+    # root user must differ from the seeded 'minioadmin' user that Milvus logs in with.
+    rootUser: "admin"
+    rootPassword: "adminminio" # Replace with a strong password
     persistence:
       storageClass: longhorn
       size: 20Gi
@@ -76,7 +79,7 @@ vllm:
     - name: "phi3-mini-4k"
       registry: "dp.apps.rancher.io"
       repository: "containers/vllm-openai"
-      tag: "0.9.1"
+      tag: "0.19.0"
       imagePullPolicy: "IfNotPresent"
       modelURL: "microsoft/Phi-3-mini-4k-instruct"
       replicaCount: 1
