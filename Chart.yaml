@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: APACHE-2.0
-#!BuildTag: charts/suse-ai-deployer:1.2.1-%RELEASE%
-#!BuildTag: charts/suse-ai-deployer:1.2.1
+#!BuildTag: charts/suse-ai-deployer:1.2.3-%RELEASE%
+#!BuildTag: charts/suse-ai-deployer:1.2.3
 annotations:
   license: Apache-2.0
 apiVersion: v2
