@@ -1,7 +1,7 @@
 apiVersion: v0
 kind: ImagesLock
 metadata:
-  generatedAt: "2026-09-11T17:05:34.158373379Z"
+  generatedAt: "2026-09-15T02:12:44.312829898Z"
   generatedBy: SUSE LLC
 chart:
   name: suse-ai-deployer
