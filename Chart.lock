@@ -10,12 +10,12 @@ dependencies:
   version: 8.19.1
 - name: pytorch
   repository: oci://dp.apps.rancher.io/charts
-  version: 0.3.3
+  version: 0.4.0
 - name: vllm
   repository: oci://dp.apps.rancher.io/charts
   version: 0.1.10
 - name: open-webui-mcpo
   repository: oci://dp.apps.rancher.io/charts
   version: 1.0.2
-digest: sha256:481afa6103abe415f4155512338017c80f2f93afe1684ece4f426de1f261e9d7
-generated: "2026-09-10T02:11:54.64803756Z"
+digest: sha256:aa7271295f5914ee12d47e093d2ef3c75da6ec527d536a34aca3d9008d5e82c7
+generated: "2026-10-03T02:12:52.040602246Z"
