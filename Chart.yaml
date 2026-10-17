@@ -44,7 +44,7 @@ dependencies:
     repository: oci://dp.apps.rancher.io/charts
     condition: open-webui.enabled
   - name: pytorch
-    version: 0.3.3
+    version: 0.4.0
     repository: oci://dp.apps.rancher.io/charts
     condition: pytorch.enabled
   - name: vllm
