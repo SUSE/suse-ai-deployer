@@ -1,7 +1,7 @@
 apiVersion: v0
 kind: ImagesLock
 metadata:
-  generatedAt: "2026-09-11T17:05:34.158373379Z"
+  generatedAt: "2026-10-31T07:55:04.866192619Z"
   generatedBy: SUSE LLC
 chart:
   name: suse-ai-deployer
@@ -9,20 +9,20 @@ chart:
   appVersion: 1.2.3
 images:
   - name: apache-kafka
-    image: dp.apps.rancher.io/containers/apache-kafka:4.3.1-4.17
+    image: dp.apps.rancher.io/containers/apache-kafka:4.3.2-8.2
     chart: apache-kafka
     digests:
-      - digest: sha256:663f376b057fe35e33941b31d83233a9a2e7b964203cb5d8b87fe6ebe0af1de8
+      - digest: sha256:551c1ed798eea65b04abb4806b53290fe0289edf2ea4989b17fe1ddf81ca47f2
         arch: linux/amd64
-      - digest: sha256:d05bd708e2af1ac27152cd5baf9c0d97c2fd276c82d0f0d392623a1329652f0d
+      - digest: sha256:297b8614740f068cf641b7b96cd01613c49be83a4398591ad87479f5f5896b5d
         arch: linux/arm64
   - name: bci-busybox
-    image: dp.apps.rancher.io/containers/bci-busybox:15.7-25.25
+    image: dp.apps.rancher.io/containers/bci-busybox:15.7-25.39
     chart: apache-kafka
     digests:
-      - digest: sha256:34a5ab774c34cd0578327af0e431ab3a46ada6582cbe9f0277489691115145f2
+      - digest: sha256:dec519a46f7bf92c1d3113e6d626129d3413a60ab775515c8587dfac68324a4f
         arch: linux/amd64
-      - digest: sha256:52aa2be4db9645bb1194e527b1bfdfcda639a2c91d15151c166b35bc5bcf0737
+      - digest: sha256:2341e08005ac15636e154fa28387bcb9f40e796e03a63ebc8257e33c67ce6873
         arch: linux/arm64
   - name: apache-tika
     image: dp.apps.rancher.io/containers/apache-tika:3.2.2-7.8
@@ -33,28 +33,28 @@ images:
       - digest: sha256:c07beef975d0d58611427ed25cc5b6e5a4c0318f9016a2f88eb60e2a8c7b9bfe
         arch: linux/arm64
   - name: bci-busybox
-    image: dp.apps.rancher.io/containers/bci-busybox:15.7-25.25
+    image: dp.apps.rancher.io/containers/bci-busybox:15.7-25.39
     chart: etcd
     digests:
-      - digest: sha256:34a5ab774c34cd0578327af0e431ab3a46ada6582cbe9f0277489691115145f2
+      - digest: sha256:dec519a46f7bf92c1d3113e6d626129d3413a60ab775515c8587dfac68324a4f
         arch: linux/amd64
-      - digest: sha256:52aa2be4db9645bb1194e527b1bfdfcda639a2c91d15151c166b35bc5bcf0737
+      - digest: sha256:2341e08005ac15636e154fa28387bcb9f40e796e03a63ebc8257e33c67ce6873
         arch: linux/arm64
   - name: etcd
-    image: dp.apps.rancher.io/containers/etcd:3.7.1-1.8
+    image: dp.apps.rancher.io/containers/etcd:3.7.3-5.1
     chart: etcd
     digests:
-      - digest: sha256:38c1fbdbae0c86b5cfcd2381d1ffea07984d5de4d7fbf3cff1f1003c2d89f3a6
+      - digest: sha256:d7df4e5a39e2be3f0a0c99cb66a0a1c479e1dfd7c946d0cabd9323ca1f0f9315
         arch: linux/amd64
-      - digest: sha256:a008b1482c43db348f4e0768bcd806c2d819ddb548621c7e971b47ae4063f357
+      - digest: sha256:6d216680228ef51619d1a5a984bcb7c9dd89a5af1b8ee6c08efb98600f5746b6
         arch: linux/arm64
   - name: heaptrack
-    image: dp.apps.rancher.io/containers/heaptrack:1.3.0-10.2
+    image: dp.apps.rancher.io/containers/heaptrack:1.3.0-14.1
     chart: milvus
     digests:
-      - digest: sha256:208a2fe78690fcca478bab27f137f974458a48e96f3801aa0f3cc2af32942f47
+      - digest: sha256:d2c4463eb9e5e09a2c8450058f094f7533659ba91b91c669e56032bdb48db68b
         arch: linux/amd64
-      - digest: sha256:a4e9ceebe9f8d335a1a617ea52df86811f2cf732758baafc55b06ea5a936c4c7
+      - digest: sha256:01d174c2123fdf75a2127de480e8ba37df2416e41f0dfe7aab83f3e4a429414c
         arch: linux/arm64
   - name: milvus
     image: dp.apps.rancher.io/containers/milvus:2.6.21-11.24
@@ -65,28 +65,20 @@ images:
       - digest: sha256:26dda9e5249f686a1625309fdff92414eb4fab5abcd03288df0d94661ec62c0b
         arch: linux/arm64
   - name: mc
-    image: dp.apps.rancher.io/containers/mc:0.20250813.083541-17.7
+    image: dp.apps.rancher.io/containers/mc:0.20250813.083541-21.1
     chart: minio
     digests:
-      - digest: sha256:8af789fb66973a57866145b2cbdc8a218b2d7be6c96c34510818006f30a7540c
+      - digest: sha256:5425ccc26616398bfda928fc496ffd0c7088b04947d1f44723594562015be7f4
         arch: linux/amd64
-      - digest: sha256:16625af335d9f33e97824df77053bcc4ac73a50717f1ce5874de821245a88b12
+      - digest: sha256:0e535b768a123cbb449e09b15e9975afad092ff80807acdb19a750732ddd0d12
         arch: linux/arm64
   - name: minio
-    image: dp.apps.rancher.io/containers/minio:0.20251015.172955-17.7
+    image: dp.apps.rancher.io/containers/minio:0.20251015.172955-21.1
     chart: minio
     digests:
-      - digest: sha256:e431380d6579d6cc8da86b105a9e6c3051ed1331c4a5a6ab255f22aea1eb9eee
+      - digest: sha256:61413b5a08c58402ce70471ae27ffda5a6f2f57dacb7be8a1233f0e04d8882c0
         arch: linux/amd64
-      - digest: sha256:3837a8d32ff9f4270568168a0f33755926ec0188ab6b53a2900dd14aa811d7ca
-        arch: linux/arm64
-  - name: bci-busybox
-    image: dp.apps.rancher.io/containers/bci-busybox:15.7-25.5
-    chart: ollama
-    digests:
-      - digest: sha256:8e04dd9044a94c572411fb63f405f3c2a597ab2a03bdc7cec8b4fa7375f57f16
-        arch: linux/amd64
-      - digest: sha256:c2a77f4b4d32c2247a21ea81e6697e032ff7d3e70954cd6ba05448fbb875d4ab
+      - digest: sha256:290e1ec2aa2e4e3cd75af71e050ba6a073c13e2d2b52541cb0f2072d97ee5f3f
         arch: linux/arm64
   - name: bci-busybox
     image: dp.apps.rancher.io/containers/bci-busybox:15.7-19.10
@@ -97,20 +89,20 @@ images:
       - digest: sha256:a036d331a06462978aa8de1a9220d20948a63c070b70471228e1396946d548e4
         arch: linux/arm64
   - name: ollama
-    image: dp.apps.rancher.io/containers/ollama:0.32.14-11.78
-    chart: ollama
-    digests:
-      - digest: sha256:eba9b8b338cd60bd3880881c2242d5c04988c681687168952e2b222fc7a66131
-        arch: linux/amd64
-      - digest: sha256:0edb6691843b7a5f709a84564136f6c19ce1507a9d9ace7349972f974fcaeb4f
-        arch: linux/arm64
-  - name: ollama
     image: dp.apps.rancher.io/containers/ollama:0.12.9-11.15
     chart: ollama
     digests:
       - digest: sha256:7c18bdb1f372cd91a3726e4f10588c881d2fdb3cdb8297ea6ce874aaa2cdb110
         arch: linux/amd64
       - digest: sha256:d7ec9a475d6f5ee2972c9cdd1b7c8645063fa17d9b6780fabce8dc8e8f439801
+        arch: linux/arm64
+  - name: ollama-nvidia
+    image: dp.apps.rancher.io/containers/ollama:0.40.12-nvidia-2.4
+    chart: ollama
+    digests:
+      - digest: sha256:cb84d7ce4c639e4be99824541bae41be4a2a0a949b24a6386ee516b74cac6dd6
+        arch: linux/amd64
+      - digest: sha256:4b34ac3ea0a693589eb4bebf72cdb3720af384771429169356461d9243daa6e0
         arch: linux/arm64
   - name: open-webui
     image: dp.apps.rancher.io/containers/open-webui:0.6.41-14.20
@@ -145,12 +137,12 @@ images:
       - digest: sha256:54581843dcf5c0f96bb96687ce8b92dfd7498e0a2aeebddcc72e0df3c40fa0e5
         arch: linux/arm64
   - name: pytorch-nvidia
-    image: dp.apps.rancher.io/containers/pytorch:2.10.0-nvidia-2.2
+    image: dp.apps.rancher.io/containers/pytorch:2.14.0-nvidia-2.7
     chart: pytorch
     digests:
-      - digest: sha256:9e209a98ddef3230d8a851429f441fb5fdfaeb7755c288053e29b7b20ad25c6c
+      - digest: sha256:ad56cc02a48974ec2325b1c22f60cb894c682b389efd664277e60b9cbe43375f
         arch: linux/amd64
-      - digest: sha256:eccf2fe60f50e7d56e4af2b869f9fa8aa9f65fef18bd79842b95be6bc698256f
+      - digest: sha256:4700c0f83d0354d7ba02a96018b4989dd15c5258146dc36ab281cb655740d55c
         arch: linux/arm64
   - name: bci-busybox
     image: dp.apps.rancher.io/containers/bci-busybox:15.7-19.10
